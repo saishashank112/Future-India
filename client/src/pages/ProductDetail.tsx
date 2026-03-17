@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, ShieldCheck, Truck, ArrowLeft, FileDown, MessageSquare, Tag, ShoppingCart, CheckCircle2 } from 'lucide-react';
 import PremiumImage from '../components/ui/PremiumImage';
 import { useModal } from '../context/ModalContext';

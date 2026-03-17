@@ -1,5 +1,4 @@
-import React from 'react';
-import { Shield, Bell, Globe, Mail, Lock, User, Save } from 'lucide-react';
+import { Shield, Bell, Lock, User, Save } from 'lucide-react';
 
 const AdminSettings = () => {
   return (

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Loader2, Phone, Globe, ShoppingBag, Layers } from 'lucide-react';
+import { X, Send, Loader2, Globe, Layers } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import PremiumImage from './PremiumImage';
 
