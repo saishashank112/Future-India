@@ -37,7 +37,8 @@ const ProductShowcase = () => {
     return certsStr ? certsStr.split(',').map(s => s.trim()) : [];
   };
 
-  const getNumericPrice = (range: string) => {
+  const getNumericPrice = (range?: string) => {
+    if (!range) return 0;
     // Extract first number from "₹120 - ₹150"
     const match = range.match(/\d+/);
     return match ? parseInt(match[0]) : 0;
