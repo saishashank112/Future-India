@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: hsl(162, 100%, 10%);
+  --color-primary-foreground: hsl(0, 0%, 100%);
+  --color-accent: hsl(42, 63%, 48%);
+  --color-accent-foreground: hsl(0, 0%, 10%);
+  --color-background: hsl(0, 0%, 100%);
+  --color-foreground: hsl(160, 20%, 10%);
+  --font-serif: "Poppins", "serif";
+  --font-sans: "Inter", "sans-serif";
+}
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all duration-300 bg-primary text-primary-foreground hover:bg-accent hover:text-primary active:scale-95;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all duration-300 bg-accent text-primary hover:bg-primary hover:text-white active:scale-95;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all duration-300 border border-primary/10 text-primary hover:bg-primary/5 active:scale-95;
+  }
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl rounded-3xl;
+  }
+  .admin-card {
+    @apply bg-white rounded-[2rem] border border-gray-100 shadow-sm p-8;
+  }
+}
+
+.shadow-premium { box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1); }
+.shadow-3xl { box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3); }
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
