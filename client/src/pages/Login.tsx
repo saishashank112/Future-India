@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ArrowRight, ShieldCheck, CheckCircle2, Mail, Phone, Lock, User, KeyRound } from 'lucide-react';
 
@@ -27,7 +27,6 @@ const Login = () => {
 
   const { signup, loginWithPassword, sendOtp, verifyOtp } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();

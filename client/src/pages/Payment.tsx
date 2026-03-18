@@ -1,6 +1,5 @@
-import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { QrCode, CreditCard, Wallet, CheckCircle2, Copy, ArrowRight } from 'lucide-react';
+import { QrCode, Wallet, CheckCircle2, Copy, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useState } from 'react';
 

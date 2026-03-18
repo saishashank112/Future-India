@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User as UserIcon, LogOut, Package, ChevronRight, Settings, Mail, Phone, Globe, Building2, Save, X, Truck, Wallet, ChevronDown, ChevronUp, Clock, CreditCard, MapPin } from 'lucide-react';
+import { User as UserIcon, LogOut, Package, ChevronRight, Settings, Mail, Phone, Globe, Building2, Save, X, ChevronDown, ChevronUp, Clock, CreditCard, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import type { User } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
