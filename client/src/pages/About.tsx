@@ -11,13 +11,13 @@ const About = () => {
   ];
 
   return (
-    <div className="pt-32 pb-24 bg-white">
+    <div className="pt-32 pb-24 bg-white overflow-x-hidden">
       {/* Hero Section */}
       <section className="container mx-auto px-6 mb-32">
         <div className="max-w-[1240px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div>
             <span className="text-accent font-bold tracking-[0.3em] uppercase text-[10px] mb-6 block">Our Story</span>
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-primary mb-8 leading-tight">
+            <h1 className="text-4xl md:text-7xl font-serif font-bold text-primary mb-8 leading-tight break-words">
               Cultivating Trust, Exporting Excellence.
             </h1>
             <p className="text-xl text-gray-500 leading-relaxed font-light mb-10">
@@ -69,7 +69,7 @@ const About = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white p-12 rounded-[2.5rem] shadow-sm border border-black/5 hover:shadow-xl transition-all group"
+                className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-black/5 hover:shadow-xl transition-all group"
               >
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-8 group-hover:bg-accent transition-colors">
                   <card.icon className="w-8 h-8 text-accent group-hover:text-white transition-colors" />
@@ -83,8 +83,8 @@ const About = () => {
       </section>
 
       {/* Pipeline Section (Layout Fix) */}
-      <section className="container mx-auto px-6 mb-32">
-        <div className="max-w-[1240px] mx-auto flex flex-col lg:flex-row gap-24 items-center">
+      <section className="container mx-auto px-6 mb-32 overflow-hidden">
+        <div className="max-w-[1240px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
           <div className="w-full lg:w-1/2 space-y-10">
             <div>
               <span className="text-accent font-bold tracking-[0.3em] uppercase text-[10px] mb-6 block">Supply Chain</span>
@@ -112,9 +112,9 @@ const About = () => {
           </div>
 
           <div className="w-full lg:w-1/2 relative">
-            <div className="grid grid-cols-2 gap-8 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative z-10">
               {pipelineSteps.map((step, idx) => (
-                <div key={idx} className={`p-8 bg-white border border-gray-100 rounded-[2rem] shadow-sm hover:shadow-lg transition-all ${idx % 2 !== 0 ? 'mt-12' : ''}`}>
+                <div key={idx} className={`p-6 md:p-8 bg-white border border-gray-100 rounded-[2rem] shadow-sm hover:shadow-lg transition-all ${idx % 2 !== 0 ? 'lg:mt-12' : ''}`}>
                   <div className="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center mb-6">
                     <step.icon className="w-6 h-6 text-primary" />
                   </div>
@@ -129,13 +129,12 @@ const About = () => {
         </div>
       </section>
 
-      {/* Final Section */}
       <section className="container mx-auto px-6">
-        <div className="max-w-[1240px] mx-auto bg-primary rounded-[4rem] p-20 text-center relative overflow-hidden">
+        <div className="max-w-[1240px] mx-auto bg-primary rounded-[2.5rem] md:rounded-[4rem] p-10 md:p-20 text-center relative overflow-hidden">
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8">Ready to secure your supply?</h2>
-            <p className="text-white/60 mb-12 max-w-2xl mx-auto font-light">Join over 40+ countries that trust Future India Exim for their premium agricultural requirements.</p>
-            <Link to="/contact" className="btn-accent px-12 py-5 text-sm font-bold tracking-widest uppercase inline-block">Work With Us</Link>
+            <h2 className="text-3xl md:text-6xl font-serif font-bold text-white mb-6 md:mb-8 leading-tight">Ready to secure your supply?</h2>
+            <p className="text-white/60 mb-10 md:mb-12 max-w-2xl mx-auto font-light text-sm md:text-base">Join over 40+ countries that trust Future India Exim for their premium agricultural requirements.</p>
+            <Link to="/contact" className="btn-accent px-10 md:px-12 py-4 md:py-5 text-xs md:text-sm font-bold tracking-widest uppercase inline-block">Work With Us</Link>
           </div>
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
         </div>

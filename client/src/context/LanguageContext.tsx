@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-export type Language = 'EN' | 'AR' | 'FR' | 'DE' | 'ES' | 'HI' | 'ZH' | 'RU' | 'PT' | 'JA';
+export type Language = 'EN' | 'EN_IN' | 'AR' | 'FR' | 'DE' | 'ES' | 'HI' | 'ZH' | 'RU' | 'PT' | 'JA';
 
 export interface LanguageContextType {
   language: Language;
@@ -11,6 +11,7 @@ export interface LanguageContextType {
 
 const currencyConfig: Record<Language, { code: string, symbol: string, rate: number }> = {
   EN: { code: 'USD', symbol: '$', rate: 0.012 },
+  EN_IN: { code: 'INR', symbol: '₹', rate: 1.0 },
   AR: { code: 'AED', symbol: 'د.إ', rate: 0.044 },
   FR: { code: 'EUR', symbol: '€', rate: 0.011 },
   DE: { code: 'EUR', symbol: '€', rate: 0.011 },
@@ -24,6 +25,41 @@ const currencyConfig: Record<Language, { code: string, symbol: string, rate: num
 
 export const translations: Record<Language, Record<string, string>> = {
   EN: {
+    hero_title: "India’s Agricultural Excellence, Delivered Globally",
+    hero_subtitle: "Sourcing the finest spices and grains from the heart of India. Quality that transcends borders.",
+    get_enquiry: "Get Enquiry",
+    our_portfolio: "Our Portfolio",
+    home: "Home",
+    products: "Products",
+    global_network: "Global Network",
+    our_process: "Our Process",
+    about: "About",
+    contact: "Contact",
+    request_sample: "Request a Sample",
+    explore_network: "Explore Network",
+    catalog_title: "Export Excellence",
+    catalog_subtitle: "Explore our curated selection of high-grade agricultural commodities.",
+    trace_title: "Trace the Source",
+    trace_subtitle: "Radical transparency from farm to port.",
+    hero_title_2: "From Farm to Port, With Precision",
+    hero_subtitle_2: "Integrated logistics and direct farm sourcing ensuring freshness and traceability.",
+    hero_title_3: "Trusted Export Partners Worldwide",
+    hero_subtitle_3: "Serving over 40+ countries with compliant, certified, and premium products.",
+    global_presence_title: "Global Export Network",
+    global_presence_description: "From our headquarters in India, we manage a sophisticated supply chain that spans across continents.",
+    live_export_feed: "Live Export Feed",
+    countries_served: "Countries Served",
+    on_time_delivery: "On-Time Delivery",
+    annual_tonnage: "Annual Tonnage",
+    global_certs: "Global Certs",
+    trace_origin_label: "Origin & Traceability",
+    view_farm_details: "View Farm Details",
+    south_india: "South India",
+    north_india: "North India",
+    east_india: "East India",
+    west_india: "West India"
+  },
+  EN_IN: {
     hero_title: "India’s Agricultural Excellence, Delivered Globally",
     hero_subtitle: "Sourcing the finest spices and grains from the heart of India. Quality that transcends borders.",
     get_enquiry: "Get Enquiry",

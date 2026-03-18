@@ -34,7 +34,7 @@ const AdminProducts = () => {
   });
 
   const fetchProducts = () => {
-    fetch('http://localhost:5000/api/products')
+    fetch('http://localhost:5001/api/products')
       .then(res => res.json())
       .then(json => {
         if (json.data) setProducts(json.data);
@@ -60,8 +60,8 @@ const AdminProducts = () => {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = editingProduct 
-      ? `http://localhost:5000/api/products/${editingProduct.id}` 
-      : 'http://localhost:5000/api/products';
+      ? `http://localhost:5001/api/products/${editingProduct.id}` 
+      : 'http://localhost:5001/api/products';
     const method = editingProduct ? 'PUT' : 'POST';
 
     try {
@@ -86,7 +86,7 @@ const AdminProducts = () => {
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`http://localhost:5001/api/products/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.message === 'deleted') fetchProducts();
     } catch (err) {
@@ -185,7 +185,7 @@ const AdminProducts = () => {
                         const uploadFormData = new FormData();
                         uploadFormData.append('image', file);
                         try {
-                          const res = await fetch('http://localhost:5000/api/upload', {
+                          const res = await fetch('http://localhost:5001/api/upload', {
                             method: 'POST',
                             body: uploadFormData
                           });

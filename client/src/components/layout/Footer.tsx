@@ -70,20 +70,20 @@ const Footer = () => {
                   <MapPin className="w-4 h-4 text-accent" />
                 </div>
                 <span className="text-white/50 text-sm leading-relaxed">
-                  12th Floor, Trade Center, BKC, Mumbai, Maharashtra 400051, India
+                  Dno.41-1/16-3, Bapanaiah Nagar, Krishnalanka, Bank Colony,<br />Vijayawada, Andhra Pradesh, India - 520013
                 </span>
               </li>
               <li className="flex items-center space-x-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                   <Mail className="w-4 h-4 text-accent" />
                 </div>
-                <span className="text-white/50 text-sm">contact@futureindiaexim.com</span>
+                <span className="text-white/50 text-sm">contact@futureindiaexim.in</span>
               </li>
               <li className="flex items-center space-x-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                   <Phone className="w-4 h-4 text-accent" />
                 </div>
-                <span className="text-white/50 text-sm">+91 22 4567 8900</span>
+                <span className="text-white/50 text-sm">+91 80378 82249</span>
               </li>
             </ul>
           </div>

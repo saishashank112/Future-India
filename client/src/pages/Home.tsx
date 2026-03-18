@@ -1,6 +1,5 @@
 import Hero from '../components/home/Hero';
 import TrustStrip from '../components/home/TrustStrip';
-import OriginTraceability from '../components/home/OriginTraceability';
 import ProductShowcase from '../components/home/ProductShowcase';
 import GlobalPresence from '../components/home/GlobalPresence';
 import WhyChooseUs from '../components/home/WhyChooseUs';
@@ -13,7 +12,6 @@ const Home = () => {
       <Hero />
       <TrustStrip />
       <WhyChooseUs />
-      <OriginTraceability />
       <ProductShowcase />
       <GlobalPresence />
       <AboutPreview />

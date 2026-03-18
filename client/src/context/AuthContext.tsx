@@ -1,44 +1,163 @@
 import React, { createContext, useContext, useState } from 'react';
 
+export interface User {
+  id: number;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  company_name: string | null;
+  country: string | null;
+  role: 'admin' | 'user';
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (email: string, pass: string) => boolean;
+  isAdmin: boolean;
+  user: User | null;
+  login: (email: string, pass: string) => boolean; // For Admin
   logout: () => void;
-  user: { email: string; role: string } | null;
+  signup: (userData: { name: string, email: string, phone: string, password: string }) => Promise<{ success: boolean, error?: string }>;
+  loginWithPassword: (identifier: string, pass: string) => Promise<{ success: boolean, error?: string }>;
+  sendOtp: (identifier: string, type: 'email' | 'phone') => Promise<boolean>;
+  verifyOtp: (identifier: string, otp: string) => Promise<boolean>;
+  updateProfile: (profile: Partial<User>) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('isAdminAuth') === 'true';
-  });
-  const [user, setUser] = useState<{ email: string; role: string } | null>(() => {
-    const saved = localStorage.getItem('adminUser');
+  const [user, setUser] = useState<User | null>(() => {
+    const saved = localStorage.getItem('exim_user');
     return saved ? JSON.parse(saved) : null;
   });
 
+  const isAuthenticated = !!user;
+  const isAdmin = user?.role === 'admin';
+
   const login = (email: string, pass: string) => {
-    // Default credentials
     if (email === 'admin@futureindia.com' && pass === 'admin123') {
-      setIsAuthenticated(true);
-      setUser({ email, role: 'admin' });
-      localStorage.setItem('isAdminAuth', 'true');
-      localStorage.setItem('adminUser', JSON.stringify({ email, role: 'admin' }));
+      const adminUser: User = { id: 0, name: 'Admin', email, phone: null, company_name: null, country: null, role: 'admin' };
+      setUser(adminUser);
+      localStorage.setItem('exim_user', JSON.stringify(adminUser));
       return true;
     }
     return false;
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem('isAdminAuth');
-    localStorage.removeItem('adminUser');
+    localStorage.removeItem('exim_user');
+  };
+
+  const signup = async (userData: { name: string, email: string, phone: string, password: string }) => {
+    try {
+      const res = await fetch('http://localhost:5001/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser(data.user);
+        localStorage.setItem('exim_user', JSON.stringify(data.user));
+        return { success: true };
+      }
+      return { success: false, error: data.error };
+    } catch (error) {
+      console.error('Signup Error:', error);
+      return { success: false, error: 'System error' };
+    }
+  };
+
+  const loginWithPassword = async (identifier: string, pass: string) => {
+    try {
+      const res = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, password: pass }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser(data.user);
+        localStorage.setItem('exim_user', JSON.stringify(data.user));
+        return { success: true };
+      }
+      return { success: false, error: data.error };
+    } catch (error) {
+      console.error('Login Error:', error);
+      return { success: false, error: 'System error' };
+    }
+  };
+
+  const sendOtp = async (identifier: string, type: 'email' | 'phone') => {
+    try {
+      const res = await fetch('http://localhost:5001/api/auth/otp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, type }),
+      });
+      return res.ok;
+    } catch (error) {
+      console.error('OTP Send Error:', error);
+      return false;
+    }
+  };
+
+  const verifyOtp = async (identifier: string, otp: string) => {
+    try {
+      const res = await fetch('http://localhost:5001/api/auth/otp/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, otp }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        const userData: User = { ...data.user, role: 'user' };
+        setUser(userData);
+        localStorage.setItem('exim_user', JSON.stringify(userData));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('OTP Verify Error:', error);
+      return false;
+    }
+  };
+
+  const updateProfile = async (profile: Partial<User>) => {
+    if (!user) return false;
+    try {
+      const res = await fetch(`http://localhost:5001/api/user/profile/${user.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile),
+      });
+      if (res.ok) {
+        const newUser = { ...user, ...profile };
+        setUser(newUser);
+        localStorage.setItem('exim_user', JSON.stringify(newUser));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Profile Update Error:', error);
+      return false;
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
+    <AuthContext.Provider value={{ 
+      isAuthenticated, 
+      isAdmin, 
+      user, 
+      login, 
+      logout, 
+      signup,
+      loginWithPassword,
+      sendOtp, 
+      verifyOtp, 
+      updateProfile 
+    }}>
       {children}
     </AuthContext.Provider>
   );

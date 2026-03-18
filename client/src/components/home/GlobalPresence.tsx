@@ -65,7 +65,7 @@ const GlobalPresence = () => {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="relative hidden lg:block">
             {/* World Map Background (Stylized) */}
             <div className="relative aspect-square md:aspect-video bg-primary/20 rounded-full blur-[100px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10" />
             
@@ -81,13 +81,6 @@ const GlobalPresence = () => {
               <div className="absolute top-[40%] left-[20%] w-3 h-3 bg-accent rounded-full animate-ping" />
               <div className="absolute top-[70%] left-[45%] w-3 h-3 bg-accent rounded-full animate-ping" />
               <div className="absolute top-[45%] left-[48%] w-4 h-4 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.5)]" />
-              
-              {/* Connecting Lines (CSS Visual) */}
-              <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
-                <path d="M 48% 45% Q 60% 30% 70% 35%" fill="none" stroke="white" strokeWidth="1" strokeDasharray="4 2" />
-                <path d="M 48% 45% Q 30% 35% 20% 40%" fill="none" stroke="white" strokeWidth="1" strokeDasharray="4 2" />
-                <path d="M 48% 45% Q 45% 60% 45% 70%" fill="none" stroke="white" strokeWidth="1" strokeDasharray="4 2" />
-              </svg>
             </div>
           </div>
 

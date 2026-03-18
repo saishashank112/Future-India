@@ -50,7 +50,7 @@ const OriginTraceability = () => {
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           
           {/* Left: Map */}
-          <div className="w-full lg:w-1/2 relative">
+          <div className="hidden lg:block w-full lg:w-1/2 relative">
             <div className="relative aspect-[4/5] max-w-[500px] mx-auto p-4 border-2 border-primary/10 rounded-[3rem] bg-white/50 backdrop-blur-sm shadow-2xl">
               {/* Background Glow */}
               <div className="absolute inset-0 bg-primary/5 rounded-[2.5rem] blur-xl" />

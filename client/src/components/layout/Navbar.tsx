@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, ChevronDown, MessageSquare } from 'lucide-react';
+import { Menu, X, Globe, ChevronDown, MessageSquare, ShoppingCart, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../../context/ModalContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useLanguage, type Language } from '../../context/LanguageContext';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 
 const languages = [
   { code: 'EN', name: 'English' },
+  { code: 'EN_IN', name: 'English-IND' },
   { code: 'AR', name: 'العربية' },
   { code: 'FR', name: 'Français' },
   { code: 'DE', name: 'Deutsch' },
@@ -24,6 +27,8 @@ const Navbar = () => {
   const [isLangOpen, setIsLangOpen] = useState(false);
   const { openEnquiryModal } = useModal();
   const { language, setLanguage, t } = useLanguage();
+  const { user } = useAuth();
+  const { itemCount } = useCart();
   const location = useLocation();
 
   useEffect(() => {
@@ -43,7 +48,7 @@ const Navbar = () => {
     { name: t('contact'), path: '/contact' },
   ];
 
-  const handleLangSelect = (code: any) => {
+  const handleLangSelect = (code: Language) => {
     setLanguage(code);
     setIsLangOpen(false);
   };
@@ -55,12 +60,14 @@ const Navbar = () => {
   };
 
   const isDarkBg = location.pathname === '/' && !isScrolled;
+  const showSolidBg = isScrolled || location.pathname !== '/';
 
   return (
+    <>
     <nav 
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-3' 
+        showSolidBg 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-3 border-b border-gray-100' 
           : 'bg-transparent py-5'
       }`}
     >
@@ -139,9 +146,39 @@ const Navbar = () => {
             </AnimatePresence>
           </div>
 
+          {/* Cart Icon */}
+          <Link 
+            to="/cart" 
+            className={`relative p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
+          >
+            <ShoppingCart className="w-5 h-5" />
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+
+          {/* User Profile / Login */}
+          {user ? (
+            <Link 
+              to="/my-account" 
+              className={`p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
+            >
+              <User className="w-5 h-5" />
+            </Link>
+          ) : (
+             <Link 
+              to="/login"
+              className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${isDarkBg ? 'text-white/90 hover:bg-white/10' : 'text-primary hover:bg-gray-50'}`}
+             >
+               Login
+             </Link>
+          )}
+
           <button 
             onClick={() => openEnquiryModal()}
-            className="btn-primary py-2.5 px-6 text-sm flex items-center space-x-2 shadow-xl hover:shadow-primary/20"
+            className="btn-primary py-2.5 px-6 text-sm flex items-center space-x-2 shadow-xl hover:shadow-primary/20 ml-2"
           >
             <MessageSquare className="w-4 h-4" />
             <span>{t('get_enquiry')}</span>
@@ -149,16 +186,27 @@ const Navbar = () => {
         </div>
 
         {/* Mobile menu toggle */}
-        <button 
-          className="lg:hidden p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen 
-            ? <X className={isDarkBg && !isMobileMenuOpen ? 'text-white' : 'text-primary'} /> 
-            : <Menu className={isDarkBg ? 'text-white' : 'text-primary'} />
-          }
-        </button>
+        <div className="lg:hidden flex items-center gap-2 pr-2">
+          <Link to="/cart" className={`relative p-2 rounded-xl transition-all ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}>
+             <ShoppingCart className="w-5 h-5" />
+             {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-accent text-white rounded-full text-[8px] font-bold flex items-center justify-center border-2 border-white shadow-sm">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`p-2 rounded-xl transition-all ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}
+          >
+             {isMobileMenuOpen 
+               ? <X className="w-6 h-6" /> 
+               : <Menu className="w-6 h-6" />
+             }
+          </button>
+        </div>
       </div>
+    </nav>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -168,7 +216,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[110] lg:hidden bg-white"
+            className="fixed inset-0 z-[120] lg:hidden bg-white"
           >
             <div className="flex flex-col h-full uppercase">
               <div className="p-6 flex items-center justify-between border-b border-gray-100">
@@ -189,6 +237,24 @@ const Navbar = () => {
                     {link.name}
                   </Link>
                 ))}
+                
+                {user ? (
+                   <Link 
+                    to="/my-account"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block text-2xl font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
+                   >
+                     My Account
+                   </Link>
+                ) : (
+                    <Link 
+                    to="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block text-2xl font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
+                   >
+                     Login / Register
+                   </Link>
+                )}
                 
                 <div className="pt-8 border-t border-gray-100">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Choose Language</span>
@@ -226,7 +292,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 

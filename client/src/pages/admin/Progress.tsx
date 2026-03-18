@@ -14,7 +14,7 @@ const AdminProgress = () => {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/metrics')
+    fetch('http://localhost:5001/api/metrics')
       .then(res => res.json())
       .then(json => setMetrics(json.data))
       .catch(err => console.error('Error fetching metrics:', err));

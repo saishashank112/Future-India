@@ -21,9 +21,9 @@ const Contact = () => {
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Corporate Hub</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed uppercase tracking-wider font-medium">
-                    12th Floor, Trade Center, BKC,<br />Mumbai, Maharashtra 400051, India
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Our Address</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed font-medium">
+                    Dno.41-1/16-3, Bapanaiah Nagar, Krishnalanka,<br />Bank Colony, Vijayawada,<br />Andhra Pradesh, India - 520013
                   </p>
                 </div>
               </div>
@@ -34,8 +34,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Direct Inquiries</h4>
-                  <p className="text-accent text-sm font-bold uppercase tracking-widest break-all">contact@futureindiaexim.com</p>
-                  <p className="text-gray-400 text-sm font-medium uppercase tracking-widest">exports@futureindiaexim.com</p>
+                  <p className="text-accent text-sm font-bold uppercase tracking-widest break-all">contact@futureindiaexim.in</p>
+                  <a href="https://www.futureindiaexim.in" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-sm font-medium hover:text-accent transition-colors">www.futureindiaexim.in</a>
                 </div>
               </div>
 
@@ -44,12 +44,24 @@ const Contact = () => {
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Global Support</h4>
-                  <p className="text-gray-500 text-sm font-bold">+91 22 4567 8900</p>
-                  <div className="flex items-center gap-2 mt-1">
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Contact Person</h4>
+                  <p className="text-gray-700 text-sm font-bold mb-1">Mr. Satish Sarella</p>
+                  <p className="text-gray-500 text-sm font-bold">+91 80378 82249</p>
+                  <div className="flex items-center gap-2 mt-2">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <p className="text-green-600 text-[10px] font-bold uppercase tracking-widest">+91 91234 56789 (WhatsApp)</p>
+                    <a href="https://wa.me/918037882249" target="_blank" rel="noopener noreferrer" className="text-green-600 text-[10px] font-bold uppercase tracking-widest hover:underline">WhatsApp Available</a>
                   </div>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-8 group">
+                <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center shrink-0 transition-colors group-hover:bg-accent group-hover:text-white">
+                  <Globe className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Listed On</h4>
+                  <a href="https://www.exportersindia.com/future-india-exim/" target="_blank" rel="noopener noreferrer" className="text-accent text-xs font-bold block hover:underline mb-1">exportersindia.com/future-india-exim</a>
+                  <a href="https://www.indianyellowpages.com/vijayawada/future-india-exim-12213912/" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-xs font-medium block hover:text-accent transition-colors">indianyellowpages.com</a>
                 </div>
               </div>
             </div>

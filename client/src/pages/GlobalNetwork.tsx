@@ -64,8 +64,8 @@ const GlobalNetwork = () => {
           ))}
         </div>
 
-        {/* Map Visualization Placeholder */}
-        <div className="relative aspect-video w-full max-w-5xl mx-auto mb-24 rounded-3xl overflow-hidden bg-[#051c14] shadow-2xl group">
+        {/* Map Visualization Placeholder - Hidden on mobile */}
+        <div className="hidden lg:block relative aspect-video w-full max-w-5xl mx-auto mb-24 rounded-3xl overflow-hidden bg-[#051c14] shadow-2xl group">
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_Map_Blank.svg" 
             alt="World Map" 

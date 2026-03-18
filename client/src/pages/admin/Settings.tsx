@@ -1,4 +1,4 @@
-import { Shield, Bell, Lock, User, Save } from 'lucide-react';
+import { Shield, Bell, User, Save } from 'lucide-react';
 
 const AdminSettings = () => {
   return (
@@ -26,13 +26,13 @@ const AdminSettings = () => {
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Official Email</label>
-                <input type="email" defaultValue="admin@futureindiaexim.com" className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" />
+                <input type="email" defaultValue="contact@futureindiaexim.in" className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" />
               </div>
             </div>
             
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Global HQ Address</label>
-              <textarea rows={3} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner resize-none" defaultValue="Erode - 638001, Tamil Nadu, India" />
+              <textarea rows={3} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner resize-none" defaultValue="Dno.41-1/16-3, Bapanaiah Nagar, Krishnalanka, Bank Colony, Vijayawada, Andhra Pradesh - 520013" />
             </div>
           </section>
 
@@ -46,22 +46,15 @@ const AdminSettings = () => {
             </div>
             
             <div className="space-y-6">
-                <div className="flex items-center justify-between p-6 bg-gray-50 rounded-[2rem]">
-                    <div className="flex items-center gap-6">
-                        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm"><Lock className="w-5 h-5" /></div>
-                        <div>
-                            <p className="text-xs font-bold text-primary uppercase">Two-Factor Authentication</p>
-                            <p className="text-[10px] text-gray-400 font-medium">Add an extra layer of security</p>
-                        </div>
-                    </div>
-                    <div className="w-12 h-6 bg-accent rounded-full relative cursor-pointer">
-                        <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-all" />
-                    </div>
+                <div className="p-6 bg-gray-50 rounded-[2rem] space-y-4">
+                     <p className="text-xs font-bold text-primary uppercase">Change Administrative Password</p>
+                     <p className="text-[10px] text-gray-400 font-medium pb-2">Ensure your account uses a strong, secure password.</p>
+                     <input type="password" placeholder="Current Password" className="w-full px-6 py-4 rounded-2xl bg-white border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-sm" />
+                     <input type="password" placeholder="New Password" className="w-full px-6 py-4 rounded-2xl bg-white border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-sm" />
+                     <button className="w-full mt-2 bg-primary text-white text-[10px] font-bold uppercase tracking-widest py-3 rounded-xl hover:bg-accent transition-colors shadow-lg">
+                        Update Password
+                     </button>
                 </div>
-
-                <button className="text-accent text-[10px] font-bold uppercase tracking-widest hover:underline flex items-center gap-2">
-                    Change Administrative Password →
-                </button>
             </div>
           </section>
         </div>

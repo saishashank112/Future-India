@@ -47,13 +47,14 @@ const EnquiryModal = ({ isOpen, onClose, initialProduct = "", initialImage = "" 
     setLoading(true);
     
     try {
-      const response = await fetch('http://localhost:5000/api/inquire', {
+      const response = await fetch('http://localhost:5001/api/inquire', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          country: `${formData.country} (${formData.countryCode} ${formData.mobile})`,
+          country: formData.country,
+          phone: `${formData.countryCode} ${formData.mobile}`,
           food_item: formData.food_item,
           type: formData.unit,
           message: formData.message
