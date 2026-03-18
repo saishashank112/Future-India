@@ -4,12 +4,11 @@ import {
   Search, 
   Mail, 
   Phone, 
-  CheckCircle2, 
+  X, 
   User,
   Package,
   Eye,
   Clock,
-  X,
   Send
 } from 'lucide-react';
 
@@ -159,27 +158,27 @@ const AdminEnquiries = () => {
             </div>
 
             <div className="flex flex-row lg:flex-col gap-3 justify-between lg:w-36 shrink-0">
-                <div className="flex gap-2">
+                 <div className="flex gap-2">
                    <button 
                     onClick={() => setSelectedEnquiry(enq)}
-                    className="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-primary shadow-sm hover:bg-accent hover:text-white transition-all"
+                    className="w-9 h-9 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-primary shadow-sm hover:bg-accent hover:text-white transition-all"
                    >
-                     <Eye className="w-4 h-4" />
+                     <Eye className="w-3.5 h-3.5" />
                    </button>
                    <button 
                     onClick={() => updateStatus(enq.id, 'Contacted')}
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${enq.status === 'Contacted' ? 'bg-yellow-500 text-white shadow-xl' : 'bg-white border border-gray-100 text-yellow-500 hover:bg-yellow-50'}`}
+                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${enq.status === 'Contacted' ? 'bg-yellow-500 text-white shadow-xl' : 'bg-white border border-gray-100 text-yellow-500 hover:bg-yellow-50'}`}
                    >
-                     <Clock className="w-4 h-4" />
+                     <Clock className="w-3.5 h-3.5" />
                    </button>
                 </div>
                 <button 
                     onClick={() => updateStatus(enq.id, 'Closed')}
-                    className={`flex-1 lg:w-full py-3 rounded-xl flex items-center justify-center space-x-2 text-[10px] font-bold uppercase tracking-widest transition-all ${
+                    className={`flex-1 lg:w-full py-2 shadow-sm rounded-xl flex items-center justify-center space-x-2 text-[10px] font-bold uppercase tracking-widest transition-all ${
                         enq.status === 'Closed' ? 'bg-green-500 text-white shadow-lg' : 'bg-primary text-white hover:bg-accent hover:text-primary'
                     }`}
                 >
-                    <CheckCircle2 className="w-4 h-4" />
+                    <X className="w-3.5 h-3.5" />
                     <span>{enq.status === 'Closed' ? 'Done' : 'Close'}</span>
                 </button>
             </div>

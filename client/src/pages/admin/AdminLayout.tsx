@@ -22,8 +22,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { logout, user } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [notifications, setNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     Promise.all([
@@ -146,7 +149,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                         <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-accent border-2 border-white rounded-full" />
                     </button>
                     {showNotifications && (
-                        <div className="absolute top-14 right-0 w-72 bg-white rounded-3xl shadow-3xl border border-gray-50 p-5 z-[160]">
+                        <div className="absolute top-14 left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 w-[calc(100vw-2rem)] sm:w-80 bg-white rounded-3xl shadow-3xl border border-gray-50 p-5 z-[160] max-h-[80vh] overflow-y-auto">
                             <h4 className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-4 px-1">Notifications</h4>
                             <div className="space-y-3">
                                 {notifications.map(n => (

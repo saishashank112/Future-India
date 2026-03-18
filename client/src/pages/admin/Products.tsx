@@ -96,16 +96,16 @@ const AdminProducts = () => {
 
   return (
     <div className="space-y-12">
-      <header className="flex justify-between items-center">
-        <div>
-          <h1 className="text-4xl font-serif font-bold text-primary mb-2 italic">Product Inventory</h1>
-          <p className="text-gray-400 font-medium uppercase tracking-widest text-xs">Manage your global export catalog.</p>
+      <header className="flex flex-col gap-6 md:flex-row md:justify-between md:items-end">
+        <div className="space-y-1">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-primary italic leading-none">Product Inventory</h1>
+          <p className="text-gray-400 font-medium uppercase tracking-[0.2em] text-[10px]">Manage your global export catalog.</p>
         </div>
         <button 
           onClick={() => handleOpenModal()}
-          className="btn-accent flex items-center space-x-3 px-8 py-4 text-xs font-bold tracking-widest uppercase shadow-xl"
+          className="btn-accent flex items-center justify-center space-x-3 px-6 md:px-8 py-3.5 md:py-4 text-[10px] font-bold tracking-widest uppercase shadow-xl w-full md:w-auto"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4 md:w-5 md:h-5" />
           <span>Add New Product</span>
         </button>
       </header>
