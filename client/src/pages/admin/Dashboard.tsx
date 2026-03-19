@@ -13,7 +13,18 @@ import {
 import { getApiUrl } from '../../config/api';
 
 const AdminDashboard = () => {
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<any>({
+    stats: {
+      totalEnquiries: 12,
+      activeProducts: 6,
+      countriesReached: 18,
+      annualRevenue: 4500000
+    },
+    recentEnquiries: [
+      { id: 1, name: "Marcus Thorne", food_item: "Organic Turmeric", country: "United Kingdom" },
+      { id: 2, name: "Aria Chen", food_item: "Basmati Rice", country: "Singapore" }
+    ]
+  });
   const navigate = useNavigate();
 
   useEffect(() => {

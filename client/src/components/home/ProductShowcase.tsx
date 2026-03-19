@@ -5,22 +5,10 @@ import { ChevronDown, ShieldCheck, MapPin, MessageSquare, Tag, ShoppingCart } fr
 import PremiumImage from '../ui/PremiumImage';
 import { useModal } from '../../context/ModalContext';
 import { useLanguage } from '../../context/LanguageContext';
-
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  priceRange: string;
-  moq: string;
-  image: string;
-  grade: string;
-  origin: string;
-  certs: string;
-  description: string;
-}
+import { DUMMY_PRODUCTS } from '../../data/dummyData';
 
 const ProductShowcase = () => {
-  const [productsList, setProductsList] = useState<Product[]>([]);
+  const [productsList, setProductsList] = useState<any[]>(DUMMY_PRODUCTS);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const { openEnquiryModal } = useModal();
   const { t, formatCurrency } = useLanguage();
@@ -29,7 +17,7 @@ const ProductShowcase = () => {
     fetch(getApiUrl('/products'))
       .then(res => res.json())
       .then(json => {
-        if (json.data) setProductsList(json.data);
+        if (json.data && json.data.length > 0) setProductsList(json.data);
       })
       .catch(err => console.error('Error fetching products:', err));
   }, []);
@@ -57,7 +45,7 @@ const ProductShowcase = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {productsList.map((product: Product) => (
+          {productsList.map((product: any) => (
             <div 
               key={product.id}
               className={`rounded-[2.5rem] border transition-all duration-500 overflow-hidden bg-white shadow-sm ${

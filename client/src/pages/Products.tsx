@@ -8,11 +8,12 @@ import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../context/ModalContext';
 import { getApiUrl } from '../config/api';
+import { DUMMY_PRODUCTS } from '../data/dummyData';
 
 const categories = ['All', 'Spices', 'Seeds', 'Powders'];
 
 const Products = () => {
-  const [productsList, setProductsList] = useState<Product[]>([]);
+  const [productsList, setProductsList] = useState<Product[]>(DUMMY_PRODUCTS);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const { openDetailModal } = useModal();
@@ -24,7 +25,7 @@ const Products = () => {
     fetch(getApiUrl('/products'))
       .then(res => res.json())
       .then(json => {
-        if (json.data) setProductsList(json.data);
+        if (json.data && json.data.length > 0) setProductsList(json.data);
       })
       .catch(err => console.error('Error fetching products:', err));
   }, []);
