@@ -31,7 +31,30 @@ interface Inquiry {
 }
 
 const AdminEnquiries = () => {
-  const [enquiries, setEnquiries] = useState<Inquiry[]>([]);
+  const [enquiries, setEnquiries] = useState<Inquiry[]>([
+    {
+      id: 1,
+      name: "Marcus Thorne",
+      email: "m.thorne@londonagro.co.uk",
+      country: "United Kingdom",
+      food_item: "Organic Turmeric",
+      type: "Bulk Order",
+      message: "Initial interest in 15MT monthly supply. Please provide pricing for premium grade.",
+      status: "New",
+      created_at: new Date().toISOString()
+    },
+    {
+      id: 2,
+      name: "Aria Chen",
+      email: "aria@singaporefoods.sg",
+      country: "Singapore",
+      food_item: "Basmati Rice",
+      type: "Sample Request",
+      message: "Requesting quotation for 2 x 20ft FCL. Also need batch samples for 1121 Sella.",
+      status: "New",
+      created_at: new Date().toISOString()
+    }
+  ]);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const [selectedEnquiry, setSelectedEnquiry] = useState<Inquiry | null>(null);
