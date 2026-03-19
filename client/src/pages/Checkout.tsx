@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 
 const Checkout = () => {
   const { items, subtotal, clearCart } = useCart();
@@ -56,13 +57,13 @@ const Checkout = () => {
             const loc = await fetchLocation();
             finalLat = loc.lat;
             finalLng = loc.lng;
-        } catch (e) {
-            console.warn("Auto-location failed, proceeding with manual address");
+        } catch (err) {
+            console.warn("Auto-location failed, proceeding with manual address", err);
         }
     }
 
     try {
-      const res = await fetch('http://localhost:5001/api/orders', {
+      const res = await fetch(getApiUrl('/orders'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

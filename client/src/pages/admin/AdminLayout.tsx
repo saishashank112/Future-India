@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -46,8 +47,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     let isMounted = true;
     Promise.all([
-      fetch('http://localhost:5001/api/admin/inquiries').then(res => res.json()),
-      fetch('http://localhost:5001/api/admin/orders').then(res => res.json())
+      fetch(getApiUrl('/admin/inquiries')).then(res => res.json()),
+      fetch(getApiUrl('/admin/orders')).then(res => res.json())
     ]).then(([inqRes, ordRes]) => {
       if (!isMounted) return;
       const inqs = inqRes.data || [];

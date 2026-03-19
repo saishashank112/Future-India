@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -37,7 +38,7 @@ const AdminCustomers = () => {
 
   const fetchCustomers = () => {
     setIsLoading(true);
-    fetch('http://localhost:5001/api/admin/users')
+    fetch(getApiUrl('/admin/users'))
       .then(res => res.json())
       .then(json => {
         if (json.data) setCustomers(json.data);
@@ -53,7 +54,7 @@ const AdminCustomers = () => {
   const deleteCustomer = async (id: number) => {
       if (!confirm('Are you sure you want to delete this partner protocol? This action is irreversible.')) return;
       try {
-          const res = await fetch(`http://localhost:5001/api/admin/users/${id}`, { method: 'DELETE' });
+          const res = await fetch(getApiUrl(`/admin/users/${id}`), { method: 'DELETE' });
           if (res.ok) {
               setCustomers(prev => prev.filter(c => c.id !== id));
               setSelectedCustomer(null);
@@ -64,7 +65,7 @@ const AdminCustomers = () => {
   const toggleBlock = async (id: number, currentStatus: string | undefined) => {
       const isBlocked = currentStatus === 'BLOCKED';
       try {
-          const res = await fetch(`http://localhost:5001/api/admin/users/${id}/block`, {
+          const res = await fetch(getApiUrl(`/admin/users/${id}/block`), {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ blocked: !isBlocked })

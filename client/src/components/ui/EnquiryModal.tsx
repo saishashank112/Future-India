@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Loader2, Globe, Layers } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -47,7 +48,7 @@ const EnquiryModal = ({ isOpen, onClose, initialProduct = "", initialImage = "" 
     setLoading(true);
     
     try {
-      const response = await fetch('http://localhost:5001/api/inquire', {
+      const response = await fetch(getApiUrl('/inquire'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

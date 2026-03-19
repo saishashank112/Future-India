@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -38,7 +39,7 @@ const AdminEnquiries = () => {
   const [isReplying, setIsReplying] = useState(false);
 
   const fetchEnquiries = () => {
-    fetch('http://localhost:5001/api/admin/inquiries')
+    fetch(getApiUrl('/admin/inquiries'))
       .then(res => res.json())
       .then(json => {
         if (json.data) setEnquiries(json.data);
@@ -57,7 +58,7 @@ const AdminEnquiries = () => {
 
   const updateStatus = async (id: number, status: string) => {
     try {
-      await fetch(`http://localhost:5001/api/admin/enquiries/${id}/status`, {
+      await fetch(getApiUrl(`/admin/enquiries/${id}/status`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })
@@ -72,7 +73,7 @@ const AdminEnquiries = () => {
     if (!replyText.trim()) return;
     setIsReplying(true);
     try {
-      const res = await fetch(`http://localhost:5001/api/admin/inquiries/${selectedEnquiry?.id}/reply`, {
+      const res = await fetch(getApiUrl(`/admin/inquiries/${selectedEnquiry?.id}/reply`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: replyText })
@@ -92,7 +93,7 @@ const AdminEnquiries = () => {
   const deleteEnquiry = async (id: number) => {
     if (!window.confirm("Are you sure you want to permanently delete this lead?")) return;
     try {
-      const res = await fetch(`http://localhost:5001/api/admin/enquiries/${id}`, {
+      const res = await fetch(getApiUrl(`/admin/enquiries/${id}`), {
         method: 'DELETE'
       });
       if (res.ok) {

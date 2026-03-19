@@ -7,6 +7,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../context/ModalContext';
+import { getApiUrl } from '../config/api';
 
 const categories = ['All', 'Spices', 'Seeds', 'Powders'];
 
@@ -20,7 +21,7 @@ const Products = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/products')
+    fetch(getApiUrl('/products'))
       .then(res => res.json())
       .then(json => {
         if (json.data) setProductsList(json.data);

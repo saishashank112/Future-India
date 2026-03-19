@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ShieldCheck, MapPin, MessageSquare, Tag, ShoppingCart } from 'lucide-react';
@@ -25,7 +26,7 @@ const ProductShowcase = () => {
   const { t, formatCurrency } = useLanguage();
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/products')
+    fetch(getApiUrl('/products'))
       .then(res => res.json())
       .then(json => {
         if (json.data) setProductsList(json.data);

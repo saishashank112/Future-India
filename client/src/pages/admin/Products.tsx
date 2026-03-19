@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit2, Trash2, X, Upload, Link as LinkIcon, Save, Image as ImageIcon } from 'lucide-react';
@@ -34,7 +35,7 @@ const AdminProducts = () => {
   });
 
   const fetchProducts = () => {
-    fetch('http://localhost:5001/api/products')
+    fetch(getApiUrl('/products'))
       .then(res => res.json())
       .then(json => {
         if (json.data) setProducts(json.data);
@@ -60,8 +61,8 @@ const AdminProducts = () => {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = editingProduct 
-      ? `http://localhost:5001/api/products/${editingProduct.id}` 
-      : 'http://localhost:5001/api/products';
+      ? getApiUrl(`/products/${editingProduct.id}`) 
+      : getApiUrl('/products');
     const method = editingProduct ? 'PUT' : 'POST';
 
     try {
@@ -86,7 +87,7 @@ const AdminProducts = () => {
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
-      const res = await fetch(`http://localhost:5001/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(getApiUrl(`/products/${id}`), { method: 'DELETE' });
       const data = await res.json();
       if (data.message === 'deleted') fetchProducts();
     } catch (err) {
@@ -182,7 +183,7 @@ const AdminProducts = () => {
                         const uploadFormData = new FormData();
                         uploadFormData.append('image', file);
                         try {
-                          const res = await fetch('http://localhost:5001/api/upload', { method: 'POST', body: uploadFormData });
+                          const res = await fetch(getApiUrl('/upload'), { method: 'POST', body: uploadFormData });
                           const data = await res.json();
                           if (data.message === 'success') setFormData(prev => ({ ...prev, image: data.url }));
                         } catch (err) { console.error('Upload failed', err); }

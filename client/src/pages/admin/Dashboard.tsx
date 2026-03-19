@@ -10,13 +10,14 @@ import {
   Activity,
   Zap
 } from 'lucide-react';
+import { getApiUrl } from '../../config/api';
 
 const AdminDashboard = () => {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/admin/dashboard')
+    fetch(getApiUrl('/admin/dashboard'))
       .then(res => res.json())
       .then(json => {
         if (json.data) {

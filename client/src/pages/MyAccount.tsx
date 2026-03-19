@@ -1,3 +1,4 @@
+import { getApiUrl } from '../config/api';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -87,7 +88,7 @@ const MyAccount = () => {
 
     const fetchOrders = async () => {
        try {
-          const res = await fetch(`http://localhost:5001/api/orders/${user.id}`);
+          const res = await fetch(getApiUrl(`/orders/${user.id}`));
           const data = await res.json();
           if (res.ok) setOrders(data.data || []);
        } catch (err) {

@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -38,7 +39,7 @@ const NotificationBell = ({ userId }: { userId: number }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await fetch(`http://localhost:5001/api/notifications/${userId}`);
+        const res = await fetch(getApiUrl(`/notifications/${userId}`));
         const data = await res.json();
         if (res.ok) setNotifications(data.data || []);
       } catch (e) { console.error(e); }
@@ -50,7 +51,7 @@ const NotificationBell = ({ userId }: { userId: number }) => {
 
   const markAsRead = async (id: number) => {
     try {
-      await fetch(`http://localhost:5001/api/notifications/read/${id}`, { method: 'POST' });
+      await fetch(getApiUrl(`/notifications/read/${id}`), { method: 'POST' });
       setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: 1 } : n));
     } catch (e) { console.error(e); }
   };

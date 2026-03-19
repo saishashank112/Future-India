@@ -1,3 +1,4 @@
+import { getApiUrl } from '../config/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { QrCode, Wallet, CheckCircle2, Copy, Upload, ShieldCheck, Clock, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -52,7 +53,7 @@ const Payment = () => {
     formData.append('paymentName', paymentName);
 
     try {
-      const res = await fetch('http://localhost:5001/api/payments/proof', {
+      const res = await fetch(getApiUrl('/payments/proof'), {
         method: 'POST',
         body: formData,
       });

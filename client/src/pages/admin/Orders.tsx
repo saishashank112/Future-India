@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -55,7 +56,7 @@ const AdminOrders = () => {
 
 
   const fetchOrders = () => {
-    fetch('http://localhost:5001/api/admin/orders')
+    fetch(getApiUrl('/admin/orders'))
       .then(res => res.json())
       .then(json => {
         if (json.data) setOrders(json.data);
@@ -73,12 +74,12 @@ const AdminOrders = () => {
     setPaymentProof(null);
     try {
       // Fetch Items
-      const itemsRes = await fetch(`http://localhost:5001/api/order-details/${orderId}`);
+      const itemsRes = await fetch(getApiUrl(`/order-details/${orderId}`));
       const itemsData = await itemsRes.json();
       if (itemsData.data) setOrderItems(itemsData.data);
 
       // Fetch Payment Proof
-      const paymentRes = await fetch(`http://localhost:5001/api/admin/payments/${orderId}`);
+      const paymentRes = await fetch(getApiUrl(`/admin/payments/${orderId}`));
       const paymentData = await paymentRes.json();
       if (paymentData.data) setPaymentProof(paymentData.data);
     } catch (err) {
@@ -96,7 +97,7 @@ const AdminOrders = () => {
 
   const updatePaymentStatus = async (id: number, status: string) => {
     try {
-      await fetch(`http://localhost:5001/api/admin/payments/${id}/status`, {
+      await fetch(getApiUrl(`/admin/payments/${id}/status`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })

@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -40,7 +41,7 @@ const Reports = () => {
 
   useEffect(() => {
     let isMounted = true;
-    fetch('http://localhost:5001/api/admin/reports')
+    fetch(getApiUrl('/admin/reports'))
       .then(res => res.json())
       .then(json => {
         if (isMounted && json.data) setReportData(json.data);

@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { 
   Building2, 
@@ -25,7 +26,7 @@ const Settings = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/settings');
+      const res = await fetch(getApiUrl('/settings'));
       const data = await res.json();
       if (res.ok) setSettings(data.data);
     } catch (e) { console.error(e); }
@@ -34,7 +35,7 @@ const Settings = () => {
   const handleSaveSettings = async () => {
     setSaving(true);
     try {
-      const res = await fetch('http://localhost:5001/api/admin/settings', {
+      const res = await fetch(getApiUrl('/admin/settings'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ settings }),
@@ -58,7 +59,7 @@ const Settings = () => {
     }
     setSaving(true);
     try {
-      const res = await fetch('http://localhost:5001/api/admin/password', {
+      const res = await fetch(getApiUrl('/admin/password'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentPassword: passwordForm.current, newPassword: passwordForm.new }),

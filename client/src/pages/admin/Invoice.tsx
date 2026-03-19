@@ -1,3 +1,4 @@
+import { getApiUrl } from '../../config/api';
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { 
@@ -49,7 +50,7 @@ const AdminInvoice = () => {
 
   useEffect(() => {
     if (!id) return;
-    fetch(`http://localhost:5001/api/admin/orders/${id}`)
+    fetch(getApiUrl(`/admin/orders/${id}`))
       .then(res => res.json())
       .then(json => {
         if (json.data) {

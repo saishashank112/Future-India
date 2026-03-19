@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AuthContext } from './AuthContext';
 import type { User } from './AuthContext';
+import { getApiUrl } from '../config/api';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
@@ -28,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (userData: { name: string, email: string, phone: string, password: string }) => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/signup', {
+      const res = await fetch(getApiUrl('/auth/signup'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
@@ -48,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginWithPassword = async (identifier: string, pass: string) => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/login', {
+      const res = await fetch(getApiUrl('/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, password: pass }),
@@ -68,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const sendOtp = async (identifier: string, type: 'email' | 'phone') => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/otp/send', {
+      const res = await fetch(getApiUrl('/auth/otp/send'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, type }),
@@ -82,7 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const verifyOtp = async (identifier: string, otp: string) => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/otp/verify', {
+      const res = await fetch(getApiUrl('/auth/otp/verify'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, otp }),
@@ -104,7 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateProfile = async (profile: Partial<User>) => {
     if (!user) return false;
     try {
-      const res = await fetch(`http://localhost:5001/api/user/profile/${user.id}`, {
+      const res = await fetch(getApiUrl(`/user/profile/${user.id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile),

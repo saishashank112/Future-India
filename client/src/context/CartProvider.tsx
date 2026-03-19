@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from './AuthContext';
 import { CartContext } from './CartContext';
 import type { CartItem, ProductInput } from '../types/cart';
+import { getApiUrl } from '../config/api';
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -10,7 +11,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const fetchCart = useCallback(async () => {
     if (!user || user.role !== 'user') return;
     try {
-      const res = await fetch(`http://localhost:5001/api/cart/${user.id}`);
+      const res = await fetch(getApiUrl(`/cart/${user.id}`));
       const data = await res.json();
       if (res.ok) {
         setItems(data.data || []);
@@ -78,7 +79,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (user?.role === 'user') {
       setItems(updateLocally);
       try {
-        const res = await fetch('http://localhost:5001/api/cart/add', {
+        const res = await fetch(getApiUrl('/cart/add'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: user.id, productId: product.id, quantity }),
@@ -100,7 +101,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (user?.role === 'user') {
       try {
-        const res = await fetch(`http://localhost:5001/api/cart/${itemId}`, { method: 'DELETE' });
+        const res = await fetch(getApiUrl(`/cart/${itemId}`), { method: 'DELETE' });
         if (!res.ok) await fetchCart();
       } catch (error) {
         console.error('Remove from Cart Error:', error);
@@ -115,7 +116,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (user?.role === 'user') {
       try {
-        const res = await fetch(`http://localhost:5001/api/cart/update/${itemId}`, {
+        const res = await fetch(getApiUrl(`/cart/update/${itemId}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity }),
