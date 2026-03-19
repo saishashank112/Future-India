@@ -1,0 +1,9 @@
+src/components/layout/Footer.tsx(1,1): error TS6133: 'Link' is declared but its value is never read.
+src/components/layout/Footer.tsx(2,31): error TS6133: 'Linkedin' is declared but its value is never read.
+src/components/layout/Footer.tsx(2,41): error TS6133: 'Facebook' is declared but its value is never read.
+src/components/layout/Footer.tsx(2,51): error TS6133: 'Instagram' is declared but its value is never read.
+src/components/layout/Footer.tsx(2,62): error TS6133: 'ChevronRight' is declared but its value is never read.
+src/pages/Checkout.tsx(1,17): error TS6133: 'MessageCircle' is declared but its value is never read.
+src/pages/Checkout.tsx(1,53): error TS6133: 'Navigation' is declared but its value is never read.
+src/pages/Checkout.tsx(5,20): error TS6133: 'useEffect' is declared but its value is never read.
+src/pages/Checkout.tsx(40,9): error TS6133: 'handleGetLocation' is declared but its value is never read.

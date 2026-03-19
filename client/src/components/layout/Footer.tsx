@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram, ChevronRight, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageSquare } from 'lucide-react';
 import { useModal } from '../../context/ModalContext';
 import { useLanguage } from '../../context/LanguageContext';
 

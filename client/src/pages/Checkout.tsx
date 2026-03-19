@@ -1,8 +1,8 @@
-import { Truck, MessageCircle, Send, Globe, MapPin, Navigation } from 'lucide-react';
+import { Truck, Send, Globe, MapPin } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
@@ -37,20 +37,6 @@ const Checkout = () => {
     });
   };
 
-  const handleGetLocation = async () => {
-    try {
-      const { lat, lng } = await fetchLocation();
-      setFormData(prev => ({ 
-        ...prev, 
-        latitude: lat, 
-        longitude: lng,
-        address: prev.address || `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)} (Captured)`
-      }));
-    } catch (error) {
-      console.error("Location error:", error);
-      alert("Unable to fetch precise location. Please enter address manually.");
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
