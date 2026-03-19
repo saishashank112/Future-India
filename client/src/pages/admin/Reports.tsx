@@ -35,7 +35,20 @@ interface ReportData {
 }
 
 const Reports = () => {
-  const [reportData, setReportData] = useState<ReportData | null>(null);
+  const [reportData, setReportData] = useState<ReportData | null>({
+    weeklyRevenue: [
+      { week: 'W1', revenue: 450000, count: 12 },
+      { week: 'W2', revenue: 620000, count: 18 },
+      { week: 'W3', revenue: 380000, count: 9 },
+      { week: 'W4', revenue: 510000, count: 15 }
+    ],
+    monthlyRevenue: [
+      { month: 'Jan', revenue: 1200000, count: 45 },
+      { month: 'Feb', revenue: 1800000, count: 62 },
+      { month: 'Mar', revenue: 1500000, count: 54 },
+      { month: 'Apr', revenue: 2100000, count: 78 }
+    ]
+  });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 

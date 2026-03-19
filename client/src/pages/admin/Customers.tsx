@@ -31,7 +31,41 @@ interface Customer {
 }
 
 const AdminCustomers = () => {
-  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([
+    {
+      id: 1,
+      name: "Marcus Thorne",
+      email: "m.thorne@londonagro.co.uk",
+      phone: "+44 20 7946 0958",
+      company_name: "London Agro Imports Ltd",
+      country: "United Kingdom",
+      created_at: "2024-01-15T10:00:00Z",
+      order_count: 5,
+      total_spent: 750000
+    },
+    {
+      id: 2,
+      name: "Aria Chen",
+      email: "aria@singaporefoods.sg",
+      phone: "+65 9123 4567",
+      company_name: "Singapore Food Synergy",
+      country: "Singapore",
+      created_at: "2024-02-20T14:30:00Z",
+      order_count: 3,
+      total_spent: 420000
+    },
+    {
+      id: 3,
+      name: "Ahmed Al-Farsi",
+      email: "ahmed@dubaitrade.ae",
+      phone: "+971 50 123 4567",
+      company_name: "Dubai Global Trade",
+      country: "United Arab Emirates",
+      created_at: "2024-03-05T09:15:00Z",
+      order_count: 8,
+      total_spent: 1250000
+    }
+  ]);
   const [search, setSearch] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -80,7 +114,7 @@ const AdminCustomers = () => {
   );
 
   const stats = useMemo(() => {
-      const lastWeek = new Date(Date.now() - 7*24*60*60*1000);
+      const lastWeek = new Date(new Date().getTime() - 7*24*60*60*1000);
       return [
         { label: 'Total Partners', value: customers.length, icon: User, color: 'primary' },
         { label: 'Network Reach', value: `${new Set(customers.map(c => c.country)).size} Nations`, icon: Globe, color: 'accent' },

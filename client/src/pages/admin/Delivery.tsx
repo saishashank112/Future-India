@@ -47,7 +47,37 @@ interface PaymentProof {
 }
 
 const AdminDelivery = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<Order[]>([
+    {
+      id: 1,
+      order_code: "EXIM-2024-001",
+      total_amount: 154500,
+      status: "SHIPPED",
+      payment_status: "Approved",
+      customer_name: "John Doe",
+      email: "john@example.com",
+      phone: "+1 234 567 890",
+      created_at: new Date().toISOString(),
+      address: "123 Business Bay, Dubai, UAE",
+      latitude: 25.1852,
+      longitude: 55.2708,
+      shipping_details: JSON.stringify({ courier: "DHL Global", tracking: "789456123" })
+    },
+    {
+      id: 3,
+      order_code: "EXIM-2024-003",
+      total_amount: 45000,
+      status: "PACKING",
+      payment_status: "Approved",
+      customer_name: "Michael Chen",
+      email: "m.chen@tokyofood.jp",
+      phone: "+81 90 1234 5678",
+      created_at: new Date().toISOString(),
+      address: "Chiyoda City, Tokyo, Japan",
+      latitude: 35.6895,
+      longitude: 139.6917
+    }
+  ]);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [paymentProof, setPaymentProof] = useState<PaymentProof | null>(null);

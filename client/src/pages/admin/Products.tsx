@@ -10,15 +10,17 @@ interface Product {
   category: string;
   priceRange: string;
   moq: string;
-  description: string;
+  description?: string;
   image: string;
-  grade: string;
-  origin: string;
-  certs: string;
+  grade?: string;
+  origin?: string;
+  certs?: string;
 }
 
+import { DUMMY_PRODUCTS } from '../../data/dummyData';
+
 const AdminProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(DUMMY_PRODUCTS);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
