@@ -4,23 +4,23 @@ import { Shield, Leaf, Truck, Zap } from 'lucide-react';
 const reasons = [
   {
     icon: Shield,
-    title: "Uncompromising Quality",
-    text: "Multi-stage grading and third-party lab testing for every batch export."
+    title: "Sovereign Quality",
+    text: "Multi-stage proprietary grading and ISO-certified lab validation for every maritime batch."
   },
   {
     icon: Leaf,
-    title: "Ethical Sourcing",
-    text: "Supporting small-holder farmer clusters with fair trade practices."
+    title: "Direct Cultivation",
+    text: "Eliminating intermediaries by managing 5,000+ acres of direct farmer-cluster partnerships."
   },
   {
     icon: Truck,
-    title: "Global Logistics",
-    text: "Strategic partnerships with MAERSK and MSC for priority shipping lanes."
+    title: "Priority Logistics",
+    text: "Consolidated shipping lanes with MAERSK and MSC ensuring expedited global transit."
   },
   {
     icon: Zap,
-    title: "Rapid Fulfillment",
-    text: "Optimized processing times ensuring your orders reach faster."
+    title: "Protocol Speed",
+    text: "Automated documentation and export compliance ensuring rapid customs clearance."
   }
 ];
 

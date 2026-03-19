@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const events = [
-  { year: '2015', title: 'The Genesis', text: 'Founded as a small procurement house in Maharashtra, focused on high-quality turmeric.' },
-  { year: '2018', title: 'Export Expansion', text: 'Established first global contract for black pepper export to the European Union.' },
-  { year: '2022', title: 'Digital Integration', text: 'Launched full traceability platform connecting 5,000+ farmers to global buyers.' },
-  { year: 'Future', title: 'Carbon Neutrality', text: 'Committed to achieving zero-carbon shipping and sustainable packaging by 2030.' },
+  { year: '2015', title: 'The Genesis', text: 'Established as a procurement collective in Sangli, specializing in high-curcumin turmeric.' },
+  { year: '2019', title: 'Global Port Entry', text: 'Successfully audited and authorized for direct spice exports to the European Union and UAE.' },
+  { year: '2023', title: 'Agri-Tech Hub', text: 'Implemented real-time supply chain monitoring for 100% transparency from farm to port.' },
+  { year: '2030', title: 'Vision Zero', text: 'Pioneering zero-carbon shipping and biodegradable bulk packaging for the next decade.' },
 ];
 
 const AboutPreview = () => {

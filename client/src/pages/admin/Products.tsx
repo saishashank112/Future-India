@@ -96,17 +96,17 @@ const AdminProducts = () => {
 
   return (
     <div className="space-y-12">
-      <header className="flex flex-col gap-6 md:flex-row md:justify-between md:items-end">
+      <header className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl md:text-5xl font-serif font-bold text-primary italic leading-none">Product Inventory</h1>
-          <p className="text-gray-400 font-medium uppercase tracking-[0.2em] text-[10px]">Manage your global export catalog.</p>
+          <h1 className="text-xl md:text-5xl font-serif font-bold text-primary italic leading-none">Global Portfolio</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-[0.2em] text-[8px] md:text-[10px]">Administrative Inventory Control • {products.length} Units</p>
         </div>
         <button 
           onClick={() => handleOpenModal()}
-          className="btn-accent flex items-center justify-center space-x-3 px-6 md:px-8 py-3.5 md:py-4 text-[10px] font-bold tracking-widest uppercase shadow-xl w-full md:w-auto"
+          className="bg-accent text-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-[9px] font-black tracking-widest uppercase shadow-xl hover:shadow-accent/20 transition-all active:scale-95"
         >
           <Plus className="w-4 h-4 md:w-5 md:h-5" />
-          <span>Add New Product</span>
+          <span>Add Commodity</span>
         </button>
       </header>
 
@@ -144,62 +144,50 @@ const AdminProducts = () => {
         {isModalOpen && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-primary/80 backdrop-blur-md" />
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-4xl bg-white rounded-[3rem] shadow-3xl overflow-hidden flex flex-col md:flex-row">
-              <div className="md:w-5/12 bg-gray-50 p-10 flex flex-col justify-center items-center border-r border-gray-100">
-                <div className="w-full aspect-square rounded-[2rem] bg-white border border-dashed border-gray-200 flex items-center justify-center overflow-hidden mb-8 shadow-inner">
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-4xl bg-white rounded-3xl md:rounded-[3rem] shadow-3xl overflow-hidden flex flex-col md:flex-row max-h-[95vh]">
+              {/* Media Section */}
+              <div className="w-full md:w-5/12 bg-gray-50 p-6 md:p-10 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-gray-100 shrink-0">
+                <div className="w-full aspect-video md:aspect-square rounded-2xl md:rounded-[2rem] bg-white border border-dashed border-gray-200 flex items-center justify-center overflow-hidden mb-4 md:mb-8 shadow-inner relative">
                   {formData.image ? (
                     <img src={formData.image} className="w-full h-full object-cover" alt="Preview" />
                   ) : (
-                    <div className="text-center p-8">
-                      <ImageIcon className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed">No Image Selected <br/> Enter URL for Preview</p>
+                    <div className="text-center p-4">
+                      <ImageIcon className="w-8 h-8 md:w-12 md:h-12 text-gray-200 mx-auto mb-2" />
+                      <p className="text-[7px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed">Identity Vector Pending</p>
                     </div>
                   )}
+                  {/* Status Overlay for URL detection */}
+                  <div className="absolute top-2 right-2 px-2 py-0.5 bg-white/80 backdrop-blur-sm rounded-md text-[6px] font-black uppercase text-accent tracking-widest border border-gray-100">
+                     {formData.image ? 'Validated' : 'Queued'}
+                  </div>
                 </div>
-                <div className="w-full space-y-4">
+                
+                <div className="w-full space-y-3">
                   <div className="relative">
-                    <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
-                    <input type="text" placeholder="Image URL (Unsplash or direct)" value={formData.image || ''} onChange={e => setFormData({...formData, image: e.target.value})} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-none text-[10px] font-bold text-primary uppercase tracking-widest shadow-sm outline-none focus:ring-1 focus:ring-accent" />
+                    <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-300" />
+                    <input type="text" placeholder="Visual Data URL" value={formData.image || ''} onChange={e => setFormData({...formData, image: e.target.value})} className="w-full pl-8 md:pl-12 pr-4 py-3 md:py-4 rounded-xl md:rounded-2xl bg-white border-none text-[8px] md:text-[10px] font-bold text-primary uppercase tracking-widest shadow-sm outline-none focus:ring-1 focus:ring-accent" />
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="h-[1px] flex-1 bg-gray-100" />
-                    <span className="text-[10px] font-bold text-gray-300">OR</span>
-                    <div className="h-[1px] flex-1 bg-gray-100" />
-                  </div>
+                  
                   <button 
                     type="button" 
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full py-4 px-6 rounded-2xl bg-primary text-white text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-accent transition-all shadow-xl"
+                    className="w-full py-3 md:py-4 px-6 rounded-xl md:rounded-2xl bg-primary text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-accent transition-all shadow-xl active:scale-95"
                   >
-                    <Upload className="w-4 h-4" />
-                    Upload from Device
+                    <Upload className="w-3.5 h-3.5" />
+                    Sync Local File
                   </button>
-                  <input 
-                    type="file" 
-                    ref={fileInputRef} 
-                    className="hidden" 
-                    accept="image/*" 
-                    onChange={async (e) => {
+                  <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (file) {
                         const uploadFormData = new FormData();
                         uploadFormData.append('image', file);
                         try {
-                          const res = await fetch('http://localhost:5001/api/upload', {
-                            method: 'POST',
-                            body: uploadFormData
-                          });
+                          const res = await fetch('http://localhost:5001/api/upload', { method: 'POST', body: uploadFormData });
                           const data = await res.json();
-                          if (data.message === 'success') {
-                            setFormData(prev => ({ ...prev, image: data.url }));
-                          }
-                        } catch (err) {
-                          console.error('Upload failed', err);
-                          alert('Upload failed');
-                        }
+                          if (data.message === 'success') setFormData(prev => ({ ...prev, image: data.url }));
+                        } catch (err) { console.error('Upload failed', err); }
                       }
-                    }}
-                  />
+                  }} />
                 </div>
               </div>
               

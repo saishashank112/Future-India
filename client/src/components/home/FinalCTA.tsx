@@ -7,7 +7,7 @@ const FinalCTA = () => {
   const { openEnquiryModal } = useModal();
 
   return (
-    <section className="py-32 relative overflow-hidden">
+    <section className="hidden md:block py-32 relative overflow-hidden">
       {/* Background with Dark Premium Aesthetic */}
       <div className="absolute inset-0 bg-[#051c14] -z-10" />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] -z-10 translate-x-1/2 -translate-y-1/2" />

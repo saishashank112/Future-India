@@ -11,7 +11,7 @@ const certifications = [
 
 const TrustStrip = () => {
   return (
-    <div className="bg-white py-12 border-b border-gray-100">
+    <div className="hidden md:block bg-white py-12 border-b border-gray-100">
       <div className="container mx-auto px-6">
         <div className="flex flex-wrap justify-between items-center gap-10 opacity-50">
           {certifications.map((cert) => (

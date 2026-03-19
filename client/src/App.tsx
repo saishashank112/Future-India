@@ -21,8 +21,9 @@ import ProductDetailModal from './components/ui/ProductDetailModal.tsx';
 import { ModalProvider } from './context/ModalProvider';
 import { useModal } from './context/ModalContext';
 import { LanguageProvider } from './context/LanguageProvider';
-import { AuthProvider, useAuth } from './context/AuthContext.tsx';
-import { CartProvider } from './context/CartContext.tsx';
+import { useAuth } from './context/AuthContext.tsx';
+import { AuthProvider } from './context/AuthProvider';
+import { CartProvider } from './context/CartProvider';
 
 // Admin Imports
 import AdminLayout from './pages/admin/AdminLayout.tsx';
@@ -33,7 +34,9 @@ import AdminProducts from './pages/admin/Products.tsx';
 import AdminEnquiries from './pages/admin/Enquiries.tsx';
 import AdminLogin from './pages/admin/Login.tsx';
 import AdminSettings from './pages/admin/Settings.tsx';
+import AdminReports from './pages/admin/Reports.tsx';
 import AdminInvoice from './pages/admin/Invoice.tsx';
+import AdminCustomers from './pages/admin/Customers.tsx';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -154,6 +157,9 @@ function App() {
                 <Route path="/admin/products" element={<ProtectedAdmin><AdminProducts /></ProtectedAdmin>} />
                 <Route path="/admin/enquiries" element={<ProtectedAdmin><AdminEnquiries /></ProtectedAdmin>} />
                 <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
+                <Route path="/admin/reports" element={<ProtectedAdmin><AdminReports /></ProtectedAdmin>} />
+                <Route path="/admin/customers" element={<ProtectedAdmin><AdminCustomers /></ProtectedAdmin>} />
+                <Route path="/admin/orders/:id" element={<ProtectedAdmin><AdminOrders /></ProtectedAdmin>} />
                 <Route path="/admin/invoice/:id" element={<ProtectedAdmin noLayout><AdminInvoice /></ProtectedAdmin>} />
 
                 {/* Fallback */}

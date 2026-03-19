@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, ChevronDown, MessageSquare, ShoppingCart, User } from 'lucide-react';
+import {
+  Menu,
+  X,
+  Globe,
+  ChevronDown,
+  MessageSquare,
+  ShoppingCart,
+  User,
+  Bell
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../../context/ModalContext';
 import { useLanguage, type Language } from '../../context/LanguageContext';
@@ -20,6 +29,87 @@ const languages = [
   { code: 'PT', name: 'Português' },
   { code: 'JA', name: '日本語' }
 ] as const;
+
+const NotificationBell = ({ userId }: { userId: number }) => {
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const unreadCount = notifications.filter(n => !n.is_read).length;
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await fetch(`http://localhost:5001/api/notifications/${userId}`);
+        const data = await res.json();
+        if (res.ok) setNotifications(data.data || []);
+      } catch (e) { console.error(e); }
+    };
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, [userId]);
+
+  const markAsRead = async (id: number) => {
+    try {
+      await fetch(`http://localhost:5001/api/notifications/read/${id}`, { method: 'POST' });
+      setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: 1 } : n));
+    } catch (e) { console.error(e); }
+  };
+
+  return (
+    <div className="relative">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 rounded-lg hover:bg-black/5 transition-colors relative"
+      >
+        <Bell className="w-5 h-5" />
+        {unreadCount > 0 && (
+          <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+        )}
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute right-0 mt-3 w-80 bg-white rounded-3xl shadow-2xl border border-gray-100 py-4 z-[110] overflow-hidden"
+          >
+            <div className="px-6 pb-4 border-b border-gray-50 flex justify-between items-center">
+              <h4 className="text-[10px] font-bold text-primary uppercase tracking-widest">Notifications</h4>
+              {unreadCount > 0 && <span className="text-[9px] font-medium text-accent uppercase tracking-widest">{unreadCount} New</span>}
+            </div>
+            <div className="max-h-80 overflow-y-auto">
+              {notifications.length === 0 ? (
+                <div className="p-10 text-center">
+                  <Bell className="w-8 h-8 text-gray-100 mx-auto mb-2" />
+                  <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">No new updates</p>
+                </div>
+              ) : (
+                notifications.map(n => (
+                  <div 
+                    key={n.id} 
+                    className={`p-5 hover:bg-gray-50 transition-colors border-b border-gray-50 flex gap-4 cursor-pointer ${!n.is_read ? 'bg-accent/5' : ''}`}
+                    onClick={() => !n.is_read && markAsRead(n.id)}
+                  >
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${n.type === 'order_update' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}`}>
+                      {n.type === 'order_update' ? <ShoppingCart className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
+                    </div>
+                    <div className="flex-1">
+                      <p className={`text-[11px] leading-relaxed mb-1 ${!n.is_read ? 'font-bold text-primary' : 'text-gray-500'}`}>{n.message}</p>
+                      <p className="text-[8px] font-bold text-gray-300 uppercase tracking-widest">{new Date(n.created_at).toLocaleDateString()}</p>
+                    </div>
+                    {!n.is_read && <div className="w-2 h-2 rounded-full bg-accent mt-1" />}
+                  </div>
+                ))
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -159,14 +249,17 @@ const Navbar = () => {
             )}
           </Link>
 
-          {/* User Profile / Login */}
+          {/* User Profile / Notifications */}
           {user ? (
-            <Link 
-              to="/my-account" 
-              className={`p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
-            >
-              <User className="w-5 h-5" />
-            </Link>
+            <div className="flex items-center space-x-2">
+              <NotificationBell userId={user.id} />
+              <Link 
+                to={user.role === 'admin' ? '/admin' : '/my-account'} 
+                className={`p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
+              >
+                <User className="w-5 h-5" />
+              </Link>
+            </div>
           ) : (
              <Link 
               to="/login"
@@ -187,6 +280,7 @@ const Navbar = () => {
 
         {/* Mobile menu toggle */}
         <div className="lg:hidden flex items-center gap-2 pr-2">
+          {user && <NotificationBell userId={user.id} />}
           <Link to="/cart" className={`relative p-2 rounded-xl transition-all ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}>
              <ShoppingCart className="w-5 h-5" />
              {itemCount > 0 && (
@@ -240,11 +334,11 @@ const Navbar = () => {
                 
                 {user ? (
                    <Link 
-                    to="/my-account"
+                    to={user.role === 'admin' ? '/admin' : '/my-account'}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="block text-2xl font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
                    >
-                     My Account
+                     {user.role === 'admin' ? 'Admin Panel' : 'My Account'}
                    </Link>
                 ) : (
                     <Link 

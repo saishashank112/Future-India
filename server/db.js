@@ -13,9 +13,14 @@ try {
   // Migrations - add columns if they don't exist
   const migrations = [
     "ALTER TABLE users ADD COLUMN password TEXT",
+    "ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'",
     "ALTER TABLE inquiries ADD COLUMN phone TEXT",
     "ALTER TABLE inquiries ADD COLUMN company_name TEXT",
     "ALTER TABLE inquiries ADD COLUMN status TEXT DEFAULT 'New'",
+    "ALTER TABLE orders ADD COLUMN latitude REAL",
+    "ALTER TABLE orders ADD COLUMN longitude REAL",
+    "ALTER TABLE orders ADD COLUMN address TEXT",
+    "ALTER TABLE orders ADD COLUMN payment_status TEXT DEFAULT 'Pending'",
   ];
   for (const m of migrations) {
     try { db.prepare(m).run(); } catch (_) { /* already exists */ }
@@ -48,6 +53,7 @@ function initializeDb(dbInstance) {
       email TEXT UNIQUE,
       phone TEXT UNIQUE,
       password TEXT,
+      role TEXT DEFAULT 'user',
       company_name TEXT,
       country TEXT,
       otp TEXT,
@@ -72,6 +78,10 @@ function initializeDb(dbInstance) {
       total_amount REAL NOT NULL,
       shipping_details TEXT,
       status TEXT DEFAULT 'Pending',
+      payment_status TEXT DEFAULT 'Pending',
+      latitude REAL,
+      longitude REAL,
+      address TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
@@ -87,6 +97,32 @@ function initializeDb(dbInstance) {
       FOREIGN KEY (product_id) REFERENCES products(id)
     );
 
+    CREATE TABLE IF NOT EXISTS payments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      order_id INTEGER NOT NULL,
+      screenshot_url TEXT,
+      transaction_id TEXT,
+      payment_name TEXT,
+      status TEXT DEFAULT 'Pending',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (order_id) REFERENCES orders(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      message TEXT NOT NULL,
+      type TEXT, -- enquiry_reply / order_update
+      is_read INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    );
+
     CREATE TABLE IF NOT EXISTS inquiries (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -95,6 +131,9 @@ function initializeDb(dbInstance) {
       food_item TEXT,
       type TEXT,
       message TEXT,
+      status TEXT DEFAULT 'New',
+      phone TEXT,
+      company_name TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
