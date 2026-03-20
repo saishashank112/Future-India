@@ -7,7 +7,6 @@ import {
   ShieldCheck, 
   Save, 
   Lock, 
-  Globe2, 
   MapPin,
   ArrowRight
 } from 'lucide-react';
