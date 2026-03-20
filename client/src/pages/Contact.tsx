@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Linkedin, Instagram, Globe } from 'lucide-react';
+import { useSettings } from '../context/SettingsProvider';
 
 const Contact = () => {
+  const { settings } = useSettings();
+  
   return (
-    <div className="pt-32 pb-24 bg-white">
+    <div className="pt-20 pb-16 bg-white">
       <div className="max-w-[1240px] mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-20 items-start">
           
@@ -21,9 +24,9 @@ const Contact = () => {
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Our Address</h4>
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3">Our Address</h4>
                   <p className="text-gray-400 text-sm leading-relaxed font-medium">
-                    Dno.41-1/16-3, Bapanaiah Nagar, Krishnalanka,<br />Bank Colony, Vijayawada,<br />Andhra Pradesh, India - 520013
+                    {settings.company_address}
                   </p>
                 </div>
               </div>
@@ -33,9 +36,9 @@ const Contact = () => {
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Direct Inquiries</h4>
-                  <p className="text-accent text-sm font-bold uppercase tracking-widest break-all">contact@futureindiaexim.in</p>
-                  <a href="https://www.futureindiaexim.in" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-sm font-medium hover:text-accent transition-colors">www.futureindiaexim.in</a>
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3">Direct Inquiries</h4>
+                  <p className="text-accent text-sm font-bold uppercase tracking-widest break-all">{settings.company_email}</p>
+                  <a href={`mailto:${settings.company_email}`} className="text-gray-400 text-sm font-medium hover:text-accent transition-colors">Contact via Email</a>
                 </div>
               </div>
 
@@ -44,12 +47,12 @@ const Contact = () => {
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Contact Person</h4>
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3">Contact Person</h4>
                   <p className="text-gray-700 text-sm font-bold mb-1">Mr. Satish Sarella</p>
-                  <p className="text-gray-500 text-sm font-bold">+91 80378 82249</p>
+                  <p className="text-gray-500 text-sm font-bold">{settings.company_phone}</p>
                   <div className="flex items-center gap-2 mt-2">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <a href="https://wa.me/918037882249" target="_blank" rel="noopener noreferrer" className="text-green-600 text-[10px] font-bold uppercase tracking-widest hover:underline">WhatsApp Available</a>
+                    <a href={`https://wa.me/${settings.company_phone.replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 text-[10px] font-bold uppercase tracking-widest hover:underline">WhatsApp Available</a>
                   </div>
                 </div>
               </div>
@@ -59,7 +62,7 @@ const Contact = () => {
                   <Globe className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-primary text-xl mb-3 italic">Listed On</h4>
+                  <h4 className="font-serif font-bold text-primary text-xl mb-3">Listed On</h4>
                   <a href="https://www.exportersindia.com/future-india-exim/" target="_blank" rel="noopener noreferrer" className="text-accent text-xs font-bold block hover:underline mb-1">exportersindia.com/future-india-exim</a>
                   <a href="https://www.indianyellowpages.com/vijayawada/future-india-exim-12213912/" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-xs font-medium block hover:text-accent transition-colors">indianyellowpages.com</a>
                 </div>
@@ -78,7 +81,7 @@ const Contact = () => {
             <motion.div 
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-[3rem] p-10 md:p-16 border border-gray-100 shadow-2xl relative overflow-hidden"
+              className="bg-[#fcf8f0] rounded-[3rem] p-10 md:p-16 border border-[#e5d5b7] shadow-2xl relative overflow-hidden"
             >
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-10">

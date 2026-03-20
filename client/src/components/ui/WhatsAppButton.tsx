@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const WhatsAppButton = () => {
-  const phoneNumber = "918037882249"; // Mr. Satish Sarella - Future India Exim
+  const phoneNumber = "918037882249";
   const message = encodeURIComponent("Hello Future India Exim, I am interested in your premium agricultural exports.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
@@ -18,8 +18,10 @@ const WhatsAppButton = () => {
       className="fixed bottom-24 lg:bottom-8 right-8 z-[90] w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center group"
     >
       <div className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-20 group-hover:opacity-0" />
-      <MessageCircle className="w-8 h-8 fill-current" />
-      
+
+      {/* Real WhatsApp Logo */}
+      <FaWhatsapp className="w-9 h-9" />
+
       <div className="absolute right-20 bg-white text-primary text-xs font-bold px-4 py-2 rounded-lg shadow-xl opacity-0 translate-x-4 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 whitespace-nowrap">
         Chat with our Export Team
       </div>

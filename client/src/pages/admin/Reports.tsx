@@ -136,12 +136,12 @@ const Reports = () => {
 
       {/* ANALYTICS VECTORS */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-8">
-        <div className="bg-white p-3 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm">
+        <div className="bg-white p-3 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm min-w-0">
             <div className="flex items-center justify-between mb-4 md:mb-8 px-1">
                <h3 className="text-[10px] md:text-lg font-serif font-bold text-primary italic tracking-tight">Revenue Throughput</h3>
                <div className="px-1.5 py-0.5 bg-accent/10 text-accent text-[6px] font-black uppercase rounded-md tracking-widest border border-accent/5">12M Audit</div>
             </div>
-            <div className="h-[180px] md:h-[300px]">
+            <div className="h-[220px] md:h-[300px]">
                 <ResponsiveContainer width="99%" height="100%">
                     <AreaChart data={reportData?.monthlyRevenue?.slice().reverse()}>
                         <defs>
@@ -160,12 +160,12 @@ const Reports = () => {
             </div>
         </div>
 
-        <div className="bg-white p-3 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm">
+        <div className="bg-white p-3 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm min-w-0">
             <div className="flex items-center justify-between mb-4 md:mb-8 px-1">
                <h3 className="text-[10px] md:text-lg font-serif font-bold text-primary italic tracking-tight">Logistics Distribution</h3>
                <div className="px-1.5 py-0.5 bg-primary/5 text-primary text-[6px] font-black uppercase rounded-md tracking-widest border border-primary/5">4W Audit</div>
             </div>
-            <div className="h-[180px] md:h-[300px]">
+            <div className="h-[220px] md:h-[300px]">
                 <ResponsiveContainer width="99%" height="100%">
                     <BarChart data={reportData?.weeklyRevenue?.slice().reverse()}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />

@@ -62,8 +62,8 @@ const AdminProducts = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    const url = editingProduct 
-      ? getApiUrl(`/products/${editingProduct.id}`) 
+    const url = editingProduct
+      ? getApiUrl(`/products/${editingProduct.id}`)
       : getApiUrl('/products');
     const method = editingProduct ? 'PUT' : 'POST';
 
@@ -97,6 +97,14 @@ const AdminProducts = () => {
     }
   };
 
+  const getImageUrl = (source: string) => {
+    if (!source) return '';
+    if (source.startsWith('http')) return source;
+    // Base 5001 address (removing /api suffix from getApiUrl)
+    const base = getApiUrl('').replace('/api', '');
+    return `${base}${source.startsWith('/') ? '' : '/'}${source}`;
+  };
+
   return (
     <div className="space-y-12">
       <header className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
@@ -104,12 +112,12 @@ const AdminProducts = () => {
           <h1 className="text-xl md:text-5xl font-serif font-bold text-primary italic leading-none">Global Portfolio</h1>
           <p className="text-gray-400 font-bold uppercase tracking-[0.2em] text-[8px] md:text-[10px]">Administrative Inventory Control • {products.length} Units</p>
         </div>
-        <button 
+        <button
           onClick={() => handleOpenModal()}
           className="bg-accent text-primary flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-[9px] font-black tracking-widest uppercase shadow-xl hover:shadow-accent/20 transition-all active:scale-95"
         >
           <Plus className="w-4 h-4 md:w-5 md:h-5" />
-          <span>Add Commodity</span>
+          <span>Add Item</span>
         </button>
       </header>
 
@@ -152,7 +160,7 @@ const AdminProducts = () => {
               <div className="w-full md:w-5/12 bg-gray-50 p-6 md:p-10 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-gray-100 shrink-0">
                 <div className="w-full aspect-video md:aspect-square rounded-2xl md:rounded-[2rem] bg-white border border-dashed border-gray-200 flex items-center justify-center overflow-hidden mb-4 md:mb-8 shadow-inner relative">
                   {formData.image ? (
-                    <img src={formData.image} className="w-full h-full object-cover" alt="Preview" />
+                    <img src={getImageUrl(formData.image)} className="w-full h-full object-cover" alt="Preview" />
                   ) : (
                     <div className="text-center p-4">
                       <ImageIcon className="w-8 h-8 md:w-12 md:h-12 text-gray-200 mx-auto mb-2" />
@@ -161,18 +169,18 @@ const AdminProducts = () => {
                   )}
                   {/* Status Overlay for URL detection */}
                   <div className="absolute top-2 right-2 px-2 py-0.5 bg-white/80 backdrop-blur-sm rounded-md text-[6px] font-black uppercase text-accent tracking-widest border border-gray-100">
-                     {formData.image ? 'Validated' : 'Queued'}
+                    {formData.image ? 'Validated' : 'Queued'}
                   </div>
                 </div>
-                
+
                 <div className="w-full space-y-3">
                   <div className="relative">
                     <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-300" />
-                    <input type="text" placeholder="Visual Data URL" value={formData.image || ''} onChange={e => setFormData({...formData, image: e.target.value})} className="w-full pl-8 md:pl-12 pr-4 py-3 md:py-4 rounded-xl md:rounded-2xl bg-white border-none text-[8px] md:text-[10px] font-bold text-primary uppercase tracking-widest shadow-sm outline-none focus:ring-1 focus:ring-accent" />
+                    <input type="text" placeholder="Visual Data URL" value={formData.image || ''} onChange={e => setFormData({ ...formData, image: e.target.value })} className="w-full pl-8 md:pl-12 pr-4 py-3 md:py-4 rounded-xl md:rounded-2xl bg-white border-none text-[8px] md:text-[10px] font-bold text-primary uppercase tracking-widest shadow-sm outline-none focus:ring-1 focus:ring-accent" />
                   </div>
-                  
-                  <button 
-                    type="button" 
+
+                  <button
+                    type="button"
                     onClick={() => fileInputRef.current?.click()}
                     className="w-full py-3 md:py-4 px-6 rounded-xl md:rounded-2xl bg-primary text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-accent transition-all shadow-xl active:scale-95"
                   >
@@ -180,20 +188,20 @@ const AdminProducts = () => {
                     Sync Local File
                   </button>
                   <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const uploadFormData = new FormData();
-                        uploadFormData.append('image', file);
-                        try {
-                          const res = await fetch(getApiUrl('/upload'), { method: 'POST', body: uploadFormData });
-                          const data = await res.json();
-                          if (data.message === 'success') setFormData(prev => ({ ...prev, image: data.url }));
-                        } catch (err) { console.error('Upload failed', err); }
-                      }
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const uploadFormData = new FormData();
+                      uploadFormData.append('image', file);
+                      try {
+                        const res = await fetch(getApiUrl('/upload'), { method: 'POST', body: uploadFormData });
+                        const data = await res.json();
+                        if (data.message === 'success') setFormData(prev => ({ ...prev, image: data.url }));
+                      } catch (err) { console.error('Upload failed', err); }
+                    }
                   }} />
                 </div>
               </div>
-              
+
               <div className="flex-1 p-12 overflow-y-auto max-h-[90vh]">
                 <div className="flex justify-between items-center mb-10">
                   <h3 className="text-3xl font-serif font-bold text-primary italic">{editingProduct ? 'Edit Portfolio Item' : 'Add New Commodity'}</h3>
@@ -202,52 +210,88 @@ const AdminProducts = () => {
 
                 <form onSubmit={handleSave} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Product Name</label>
-                       <input required type="text" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. Groundnuts G2" />
-                     </div>
-                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Category</label>
-                       <select value={formData.category || 'Spices'} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner appearance-none">
-                         <option>Spices</option>
-                         <option>Seeds</option>
-                         <option>Powders</option>
-                         <option>Oils</option>
-                         <option>Rice & Grains</option>
-                       </select>
-                     </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Product Name</label>
+                      <input required type="text" value={formData.name || ''} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. Groundnuts G2" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Category</label>
+                      <select value={formData.category || 'Spices'} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner appearance-none">
+                        <option>Spices</option>
+                        <option>Seeds</option>
+                        <option>Powders</option>
+                        <option>Oils</option>
+                        <option>Rice & Grains</option>
+                        <option>Water</option>
+                        <option>Fruits</option>
+                        <option>Vegetables</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Price Range</label>
-                       <input required type="text" value={formData.priceRange || ''} onChange={e => setFormData({...formData, priceRange: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="₹100 - ₹200" />
-                     </div>
-                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">MOQ</label>
-                       <input required type="text" value={formData.moq || ''} onChange={e => setFormData({...formData, moq: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="500 Kg" />
-                     </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Price Range</label>
+                      <input required type="text" value={formData.priceRange || ''} onChange={e => setFormData({ ...formData, priceRange: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="₹100 - ₹200" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">
+                        MOQ
+                      </label>
+
+                      <div className="flex gap-2">
+                        {/* VALUE */}
+                        <input
+                          required
+                          type="number"
+                          value={formData.moq?.split(' ')[0] || ''}
+                          onChange={e => {
+                            const unit = formData.moq?.split(' ')[1] || 'Kg';
+                            setFormData({ ...formData, moq: `${e.target.value} ${unit}` });
+                          }}
+                          className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner"
+                          placeholder="500"
+                        />
+
+                        {/* UNIT */}
+                        <select
+                          value={formData.moq?.split(' ')[1] || 'Kg'}
+                          onChange={e => {
+                            const value = formData.moq?.split(' ')[0] || '';
+                            setFormData({ ...formData, moq: `${value} ${e.target.value}` });
+                          }}
+                          className="px-4 py-4 rounded-2xl bg-gray-50 text-sm font-bold text-primary outline-none shadow-inner"
+                        >
+                          <option>Kg</option>
+                          <option>g</option>
+                          <option>ML</option>
+                          <option>Litre</option>
+                          <option>Tons</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Grade / Quality</label>
-                       <input type="text" value={formData.grade || ''} onChange={e => setFormData({...formData, grade: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. A1 Premium Bold" />
-                     </div>
-                     <div className="space-y-2">
-                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Origin</label>
-                       <input type="text" value={formData.origin || ''} onChange={e => setFormData({...formData, origin: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. Tamil Nadu, India" />
-                     </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Grade / Quality</label>
+                      <input type="text" value={formData.grade || ''} onChange={e => setFormData({ ...formData, grade: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. A1 Premium Bold" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Origin</label>
+                      <input type="text" value={formData.origin || ''} onChange={e => setFormData({ ...formData, origin: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. Tamil Nadu, India" />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Certifications (Comma separated)</label>
-                    <input type="text" value={formData.certs || ''} onChange={e => setFormData({...formData, certs: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. ISO 9001, FDA, APEDA" />
+                    <input type="text" value={formData.certs || ''} onChange={e => setFormData({ ...formData, certs: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner" placeholder="e.g. ISO 9001, FDA, APEDA" />
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Detailed Description</label>
-                    <textarea rows={3} value={formData.description || ''} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner resize-none font-sans" placeholder="Describe harvesting season, loadability etc..."></textarea>
+                    <textarea rows={3} value={formData.description || ''} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none text-sm font-bold text-primary outline-none focus:ring-1 focus:ring-accent shadow-inner resize-none font-sans" placeholder="Describe harvesting season, loadability etc..."></textarea>
                   </div>
 
                   <button type="submit" className="w-full btn-primary py-5 flex items-center justify-center space-x-3 text-xs font-bold tracking-[0.2em] uppercase shadow-2xl mt-4">

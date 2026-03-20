@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Home as HomeIcon, Package, ShoppingCart, User } from 'lucide-react';
+import { Home as HomeIcon, Package, User, Info } from 'lucide-react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
@@ -24,6 +24,7 @@ import { LanguageProvider } from './context/LanguageProvider';
 import { useAuth } from './context/AuthContext.tsx';
 import { AuthProvider } from './context/AuthProvider';
 import { CartProvider } from './context/CartProvider';
+import { SettingsProvider } from './context/SettingsProvider';
 
 // Admin Imports
 import AdminLayout from './pages/admin/AdminLayout.tsx';
@@ -87,28 +88,35 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow pb-32 lg:pb-0">
         {children}
       </main>
       <Footer />
       
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100 z-[80] flex justify-between items-center shadow-[0_-10px_30px_rgba(0,0,0,0.05)] pb-safe">
-        <NavLink to="/" className={({isActive}) => `flex flex-col items-center justify-center flex-1 py-3 space-y-1 ${isActive ? 'text-accent' : 'text-gray-400'}`}>
-          <HomeIcon className="w-5 h-5" />
-          <span className="text-[9px] font-bold uppercase tracking-widest">Home</span>
+      {/* Dynamic Floating Mobile Navigation */}
+      <div className={`lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-[440px] z-[80] flex justify-between items-center shadow-2xl rounded-[2.5rem] px-5 py-3 transition-all duration-500 border
+        ${useLocation().pathname === '/' 
+          ? 'bg-primary/60 backdrop-blur-2xl border-white/10 text-white' 
+          : 'bg-white/95 backdrop-blur-xl border-gray-100 text-primary shadow-xl shadow-black/5'}`}>
+        
+        <NavLink to="/" className={({isActive}) => `flex flex-col items-center justify-center flex-1 space-y-1.5 transition-all duration-300 ${isActive ? 'text-accent scale-110' : 'opacity-60 hover:opacity-100'}`}>
+          <HomeIcon className="w-6 h-6" />
+          <span className="text-[9px] font-bold uppercase tracking-[0.15em]">Home</span>
         </NavLink>
-        <NavLink to="/products" className={({isActive}) => `flex flex-col items-center justify-center flex-1 py-3 space-y-1 ${isActive ? 'text-accent' : 'text-gray-400'}`}>
-          <Package className="w-5 h-5" />
-          <span className="text-[9px] font-bold uppercase tracking-widest">Products</span>
+        
+        <NavLink to="/products" className={({isActive}) => `flex flex-col items-center justify-center flex-1 space-y-1.5 transition-all duration-300 ${isActive ? 'text-accent scale-110' : 'opacity-60 hover:opacity-100'}`}>
+          <Package className="w-6 h-6" />
+          <span className="text-[9px] font-bold uppercase tracking-[0.15em]">Shop</span>
         </NavLink>
-        <NavLink to="/cart" className={({isActive}) => `relative flex flex-col items-center justify-center flex-1 py-3 space-y-1 ${isActive ? 'text-accent' : 'text-gray-400'}`}>
-          <ShoppingCart className="w-5 h-5" />
-          <span className="text-[9px] font-bold uppercase tracking-widest">Cart</span>
+        
+        <NavLink to="/about" className={({isActive}) => `flex flex-col items-center justify-center flex-1 space-y-1.5 transition-all duration-300 ${isActive ? 'text-accent scale-110' : 'opacity-60 hover:opacity-100'}`}>
+          <Info className="w-6 h-6" />
+          <span className="text-[9px] font-bold uppercase tracking-[0.15em]">About</span>
         </NavLink>
-        <NavLink to="/my-account" className={({isActive}) => `flex flex-col items-center justify-center flex-1 py-3 space-y-1 ${isActive ? 'text-accent' : 'text-gray-400'}`}>
-          <User className="w-5 h-5" />
-          <span className="text-[9px] font-bold uppercase tracking-widest">Account</span>
+
+        <NavLink to="/my-account" className={({isActive}) => `flex flex-col items-center justify-center flex-1 space-y-1.5 transition-all duration-300 ${isActive ? 'text-accent scale-110' : 'opacity-60 hover:opacity-100'}`}>
+          <User className="w-6 h-6" />
+          <span className="text-[9px] font-bold uppercase tracking-[0.15em]">User</span>
         </NavLink>
       </div>
 
@@ -125,51 +133,53 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <LanguageProvider>
-        <CartProvider>
-          <Router>
-            <ModalProvider>
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-                <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
-                <Route path="/products/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
-                <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
-                <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
-                <Route path="/global-network" element={<PublicLayout><GlobalNetwork /></PublicLayout>} />
-                <Route path="/our-process" element={<PublicLayout><OurProcess /></PublicLayout>} />
-                
-                {/* Auth & Store Routes */}
-                <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
-                <Route path="/my-account" element={<PublicLayout><ProtectedUser><MyAccount /></ProtectedUser></PublicLayout>} />
-                <Route path="/cart" element={<PublicLayout><Cart /></PublicLayout>} />
-                <Route path="/checkout" element={<PublicLayout><ProtectedUser><Checkout /></ProtectedUser></PublicLayout>} />
-                <Route path="/payment" element={<PublicLayout><ProtectedUser><Payment /></ProtectedUser></PublicLayout>} />
+    <SettingsProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <CartProvider>
+            <Router>
+              <ModalProvider>
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+                  <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
+                  <Route path="/products/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
+                  <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+                  <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+                  <Route path="/global-network" element={<PublicLayout><GlobalNetwork /></PublicLayout>} />
+                  <Route path="/our-process" element={<PublicLayout><OurProcess /></PublicLayout>} />
+                  
+                  {/* Auth & Store Routes */}
+                  <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
+                  <Route path="/my-account" element={<PublicLayout><ProtectedUser><MyAccount /></ProtectedUser></PublicLayout>} />
+                  <Route path="/cart" element={<PublicLayout><Cart /></PublicLayout>} />
+                  <Route path="/checkout" element={<PublicLayout><ProtectedUser><Checkout /></ProtectedUser></PublicLayout>} />
+                  <Route path="/payment" element={<PublicLayout><ProtectedUser><Payment /></ProtectedUser></PublicLayout>} />
 
-                {/* Admin Auth */}
-                <Route path="/admin/login" element={<AdminLogin />} />
+                  {/* Admin Auth */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
 
-                {/* Admin Protected Routes */}
-                <Route path="/admin" element={<ProtectedAdmin><AdminDashboard /></ProtectedAdmin>} />
-                <Route path="/admin/orders" element={<ProtectedAdmin><AdminOrders /></ProtectedAdmin>} />
-                <Route path="/admin/delivery" element={<ProtectedAdmin><AdminDelivery /></ProtectedAdmin>} />
-                <Route path="/admin/products" element={<ProtectedAdmin><AdminProducts /></ProtectedAdmin>} />
-                <Route path="/admin/enquiries" element={<ProtectedAdmin><AdminEnquiries /></ProtectedAdmin>} />
-                <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
-                <Route path="/admin/reports" element={<ProtectedAdmin><AdminReports /></ProtectedAdmin>} />
-                <Route path="/admin/customers" element={<ProtectedAdmin><AdminCustomers /></ProtectedAdmin>} />
-                <Route path="/admin/orders/:id" element={<ProtectedAdmin><AdminOrders /></ProtectedAdmin>} />
-                <Route path="/admin/invoice/:id" element={<ProtectedAdmin noLayout><AdminInvoice /></ProtectedAdmin>} />
+                  {/* Admin Protected Routes */}
+                  <Route path="/admin" element={<ProtectedAdmin><AdminDashboard /></ProtectedAdmin>} />
+                  <Route path="/admin/orders" element={<ProtectedAdmin><AdminOrders /></ProtectedAdmin>} />
+                  <Route path="/admin/delivery" element={<ProtectedAdmin><AdminDelivery /></ProtectedAdmin>} />
+                  <Route path="/admin/products" element={<ProtectedAdmin><AdminProducts /></ProtectedAdmin>} />
+                  <Route path="/admin/enquiries" element={<ProtectedAdmin><AdminEnquiries /></ProtectedAdmin>} />
+                  <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
+                  <Route path="/admin/reports" element={<ProtectedAdmin><AdminReports /></ProtectedAdmin>} />
+                  <Route path="/admin/customers" element={<ProtectedAdmin><AdminCustomers /></ProtectedAdmin>} />
+                  <Route path="/admin/orders/:id" element={<ProtectedAdmin><AdminOrders /></ProtectedAdmin>} />
+                  <Route path="/admin/invoice/:id" element={<ProtectedAdmin noLayout><AdminInvoice /></ProtectedAdmin>} />
 
-                {/* Fallback */}
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
-            </ModalProvider>
-          </Router>
-        </CartProvider>
-      </LanguageProvider>
-    </AuthProvider>
+                  {/* Fallback */}
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </ModalProvider>
+            </Router>
+          </CartProvider>
+        </LanguageProvider>
+      </AuthProvider>
+    </SettingsProvider>
   );
 }
 

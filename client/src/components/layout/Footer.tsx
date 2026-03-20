@@ -1,70 +1,101 @@
 import { Mail, Phone, MapPin, MessageSquare } from 'lucide-react';
 import { useModal } from '../../context/ModalContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsProvider';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { openEnquiryModal } = useModal();
   const { t } = useLanguage();
+  const { settings } = useSettings();
 
   return (
-    <footer className="bg-[#051c14] text-white pt-24 pb-12">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 mb-20">
+    <footer className="bg-[#051c14] text-white pt-12 pb-6 border-t border-white/10">
+      <div className="max-w-6xl mx-auto px-4">
 
-          {/* Contact Details */}
-          <div>
-            <h4 className="font-serif font-bold text-lg mb-8 text-accent">Corporate Hub</h4>
-            <ul className="space-y-6">
-              <li className="flex items-start space-x-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-accent" />
-                </div>
-                <span className="text-white/50 text-sm leading-relaxed">
-                  Dno.41-1/16-3, Bapanaiah Nagar, Krishnalanka, Bank Colony,<br />Vijayawada, Andhra Pradesh, India - 520013
-                </span>
-              </li>
-              <li className="flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-accent" />
-                </div>
-                <span className="text-white/50 text-sm">contact@futureindiaexim.in</span>
-              </li>
-              <li className="flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <Phone className="w-4 h-4 text-accent" />
-                </div>
-                <span className="text-white/50 text-sm">+91 80378 82249</span>
-              </li>
-            </ul>
+        {/* TOP SECTION */}
+        <div className="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
+
+          {/* CONTACT */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-5">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-white/70">
+              Corporate Hub
+            </h4>
+
+            <div className="flex flex-col md:flex-row items-center gap-3 text-sm text-white/80">
+              <MapPin className="w-4 h-4 text-accent" />
+              <p>
+                {settings.company_address}
+              </p>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center gap-3 text-sm text-white/80">
+              <Mail className="w-4 h-4 text-accent" />
+              <span>{settings.company_email}</span>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center gap-3 text-sm text-white/80">
+              <Phone className="w-4 h-4 text-accent" />
+              <span>{settings.company_phone}</span>
+            </div>
           </div>
 
-          {/* CTA Section */}
-          <div className="space-y-6">
-            <h4 className="font-serif font-bold text-lg mb-8 text-accent">Export Enquiry</h4>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Looking for a custom export quote? Our team responds within 12 hours.
+          {/* CTA */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-5">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-white/70">
+              Export Enquiry
+            </h4>
+
+            <p className="text-sm text-white/60">
+              Get a fast quote for bulk export requirements.
             </p>
-            <button 
+
+            <button
               onClick={() => openEnquiryModal()}
-              className="w-full btn-accent flex items-center justify-center space-x-2 py-4"
+              className="flex items-center gap-3 px-6 py-4 
+                         bg-[#c9a13b] text-[#052e22] 
+                         font-semibold text-sm tracking-wide
+                         rounded-full 
+                         hover:scale-105 
+                         hover:shadow-[0_0_20px_rgba(201,161,59,0.4)]
+                         transition-all duration-300 w-fit mx-auto md:mx-0"
             >
               <MessageSquare className="w-5 h-5" />
-              <span>{t('get_enquiry')}</span>
+              {t('get_enquiry')}
             </button>
           </div>
+
+          {/* BRAND */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-5">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-white/70">
+              Global Trade Partner
+            </h4>
+
+            <p className="text-sm text-white/60 leading-relaxed max-w-sm">
+              Delivering consistent quality and reliable export logistics across 30+ countries with precision and trust.
+            </p>
+          </div>
+
         </div>
 
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-white/30 text-xs font-medium">
-            © {currentYear} Future India Exim. Standard for Excellence in Agriculture.
-          </p>
-          <div className="flex items-center space-x-8 text-white/30 text-[10px] font-bold uppercase tracking-widest">
-            <a href="#" className="hover:text-accent transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-accent transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-accent transition-colors">Export Compliance</a>
+        {/* BOTTOM SECTION */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-6 text-xs text-white/50">
+
+          {/* LANGUAGE */}
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <span className="uppercase tracking-widest text-white/40">
+              Language
+            </span>
+            <div id="google_translate_element" />
           </div>
+
+          {/* COPYRIGHT */}
+          <p className="text-center md:text-right">
+            © {currentYear} Future India Exim. All rights reserved.
+          </p>
+
         </div>
+
       </div>
     </footer>
   );

@@ -11,16 +11,16 @@ const events = [
 
 const AboutPreview = () => {
   return (
-    <section className="py-32 bg-white">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-24 items-center">
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
           <div className="w-full lg:w-1/2">
-            <span className="text-accent font-bold tracking-[0.3em] uppercase text-[10px] mb-6 block">Our Legacy</span>
-            <h2 className="text-4xl md:text-7xl font-serif font-bold text-primary mb-10 leading-[1.1]">Decades of Trust, <br className="hidden md:block" /> Future of Agri-Tech.</h2>
-            <p className="text-lg text-gray-500 font-light leading-relaxed mb-12 max-w-xl">
-              Future India Exim isn't just an export house; it's a bridge of radical transparency. we blend traditional harvesting wisdom with blockchain-level traceability to deliver the absolute peak of Indian agricultural excellence.
+            <span className="text-accent font-black tracking-[0.3em] uppercase text-[10px] mb-4 block">Our Legacy</span>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-6 leading-[1.1] uppercase tracking-tighter">Decades of Trust, <br className="hidden md:block" /> Future of Agri-Tech.</h2>
+            <p className="text-base text-gray-500 font-medium leading-relaxed mb-10 max-w-lg">
+              Future India Exim blends traditional harvesting wisdom with modern traceability to deliver the peak of Indian agricultural excellence to the global stage.
             </p>
-            <Link to="/about" className="group btn-primary py-4 px-10 inline-flex items-center space-x-3 text-sm">
+            <Link to="/about" className="group bg-primary text-white py-4 px-10 inline-flex items-center space-x-3 text-sm font-bold uppercase tracking-widest transition-all hover:bg-black">
               <span>Our Story</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>

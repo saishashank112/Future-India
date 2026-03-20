@@ -10,7 +10,7 @@ import type { Product } from '../context/ModalContext';
 import { getApiUrl } from '../config/api';
 import { DUMMY_PRODUCTS } from '../data/dummyData';
 
-const categories = ['All', 'Spices', 'Seeds', 'Powders'];
+const categories = ['All', 'Spices', 'Fruits', 'Vegetables', 'Grains', 'Seeds', 'Powders'];
 
 const Products = () => {
   const [productsList, setProductsList] = useState<Product[]>(DUMMY_PRODUCTS);
@@ -22,18 +22,29 @@ const Products = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('Fetching products...');
     fetch(getApiUrl('/products'))
       .then(res => res.json())
       .then(json => {
-        if (json.data && json.data.length > 0) setProductsList(json.data);
+        console.log('API Response:', json);
+        if (json.data && Array.isArray(json.data) && json.data.length > 0) {
+          console.log('Updating products list with', json.data.length, 'items');
+          setProductsList(json.data);
+        } else {
+          console.log('API returned empty or invalid data, keeping dummy data');
+        }
       })
-      .catch(err => console.error('Error fetching products:', err));
+      .catch(err => {
+        console.error('Error fetching products:', err);
+        console.log('Error encountered, staying with dummy data');
+      });
   }, []);
 
-  const filteredProducts = productsList.filter(p => 
-    (activeCategory === 'All' || p.category === activeCategory) &&
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = productsList.filter(p => {
+    const categoryMatch = activeCategory === 'All' || p.category.toLowerCase().trim() === activeCategory.toLowerCase().trim();
+    const searchMatch = p.name.toLowerCase().includes(searchQuery.toLowerCase().trim());
+    return categoryMatch && searchMatch;
+  });
 
   const [addedId, setAddedId] = useState<number | null>(null);
 

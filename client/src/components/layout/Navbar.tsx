@@ -31,8 +31,8 @@ const languages = [
   { code: 'JA', name: '日本語' }
 ] as const;
 
-const NotificationBell = ({ userId }: { userId: number }) => {
-  const [notifications, setNotifications] = useState<any[]>([]);
+const NotificationBell = ({ userId, isDarkBg }: { userId: number, isDarkBg: boolean }) => {
+  const [notifications, setNotifications] = useState<{id: number, message: string, type: string, is_read: number, created_at: string}[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const unreadCount = notifications.filter(n => !n.is_read).length;
 
@@ -58,11 +58,11 @@ const NotificationBell = ({ userId }: { userId: number }) => {
 
   return (
     <div className="relative">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 rounded-lg hover:bg-black/5 transition-colors relative"
       >
-        <Bell className="w-5 h-5" />
+        <Bell className={`w-5 h-5 ${isDarkBg ? 'text-white' : 'text-primary'}`} />
         {unreadCount > 0 && (
           <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-pulse" />
         )}
@@ -88,8 +88,8 @@ const NotificationBell = ({ userId }: { userId: number }) => {
                 </div>
               ) : (
                 notifications.map(n => (
-                  <div 
-                    key={n.id} 
+                  <div
+                    key={n.id}
                     className={`p-5 hover:bg-gray-50 transition-colors border-b border-gray-50 flex gap-4 cursor-pointer ${!n.is_read ? 'bg-accent/5' : ''}`}
                     onClick={() => !n.is_read && markAsRead(n.id)}
                   >
@@ -155,153 +155,153 @@ const Navbar = () => {
 
   return (
     <>
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        showSolidBg 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-3 border-b border-gray-100' 
+      <nav
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${showSolidBg
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-3 border-b border-gray-100'
           : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" onClick={handleLogoClick} className="flex items-center space-x-3 group">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-            <span className="text-accent font-bold text-xl">FI</span>
-          </div>
-          <div className="flex flex-col">
-            <span className={`font-serif font-bold text-xl tracking-tight leading-none ${isDarkBg ? 'text-white' : 'text-primary'}`}>
-              FUTURE INDIA
-            </span>
-            <span className="text-[10px] tracking-[0.3em] font-bold text-accent">
-              EXIM
-            </span>
-          </div>
-        </Link>
-
-        {/* Desktop Links */}
-        <div className="hidden lg:flex items-center space-x-1">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
-              to={link.path}
-              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all hover:bg-black/5 ${
-                location.pathname === link.path 
-                  ? 'text-accent' 
-                  : isDarkBg ? 'text-white/90' : 'text-primary'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Right Actions */}
-        <div className="hidden lg:flex items-center space-x-4">
-          {/* Language Switcher */}
-          <div className="relative">
-            <button 
-              onClick={() => setIsLangOpen(!isLangOpen)}
-              className={`flex items-center space-x-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg hover:bg-black/5 transition-all ${
-                isDarkBg ? 'text-white' : 'text-primary'
-              }`}
-            >
-              <Globe className="w-4 h-4 text-accent" />
-              <span>{language}</span>
-              <ChevronDown className={`w-3 h-3 transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            <AnimatePresence>
-              {isLangOpen && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl py-2 border border-gray-100 overflow-hidden"
-                >
-                  <div className="grid grid-cols-1 max-h-64 overflow-y-auto">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLangSelect(lang.code)}
-                        className={`px-6 py-2.5 text-left text-sm font-medium transition-colors hover:bg-gray-50 flex items-center justify-between ${
-                          language === lang.code ? 'text-accent' : 'text-primary'
-                        }`}
-                      >
-                        {lang.name}
-                        {language === lang.code && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Cart Icon */}
-          <Link 
-            to="/cart" 
-            className={`relative p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
-          >
-            <ShoppingCart className="w-5 h-5" />
-            {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white">
-                {itemCount}
-              </span>
-            )}
-          </Link>
-
-          {/* User Profile / Notifications */}
-          {user ? (
-            <div className="flex items-center space-x-2">
-              <NotificationBell userId={user.id} />
-              <Link 
-                to={user.role === 'admin' ? '/admin' : '/my-account'} 
-                className={`p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
-              >
-                <User className="w-5 h-5" />
-              </Link>
+          }`}
+      >
+        <div className="container mx-auto px-6 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" onClick={handleLogoClick} className="flex items-center space-x-3 group">
+            <div className="w-20 h-20 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+              <img src="/images/logo.png" alt="" />
             </div>
-          ) : (
-             <Link 
-              to="/login"
-              className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${isDarkBg ? 'text-white/90 hover:bg-white/10' : 'text-primary hover:bg-gray-50'}`}
-             >
-               Login
-             </Link>
-          )}
-
-          <button 
-            onClick={() => openEnquiryModal()}
-            className="btn-primary py-2.5 px-6 text-sm flex items-center space-x-2 shadow-xl hover:shadow-primary/20 ml-2"
-          >
-            <MessageSquare className="w-4 h-4" />
-            <span>{t('get_enquiry')}</span>
-          </button>
-        </div>
-
-        {/* Mobile menu toggle */}
-        <div className="lg:hidden flex items-center gap-2 pr-2">
-          {user && <NotificationBell userId={user.id} />}
-          <Link to="/cart" className={`relative p-2 rounded-xl transition-all ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}>
-             <ShoppingCart className="w-5 h-5" />
-             {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-accent text-white rounded-full text-[8px] font-bold flex items-center justify-center border-2 border-white shadow-sm">
-                {itemCount}
+            <div className="flex flex-col">
+              <span className={`font-serif font-bold text-xl tracking-tight leading-none ${isDarkBg ? 'text-white' : 'text-primary'}`}>
+                FUTURE INDIA
               </span>
-            )}
+              <span className="text-[10px] tracking-[0.3em] font-bold text-accent">
+                EXIM
+              </span>
+            </div>
           </Link>
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`p-2 rounded-xl transition-all ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}
-          >
-             {isMobileMenuOpen 
-               ? <X className="w-6 h-6" /> 
-               : <Menu className="w-6 h-6" />
-             }
-          </button>
+
+          {/* Desktop Links */}
+          <div className="hidden lg:flex items-center space-x-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`px-5 py-2.5 text-[15px] font-bold rounded-lg transition-all hover:bg-black/5 ${location.pathname === link.path
+                  ? 'text-accent'
+                  : isDarkBg ? 'text-white/90' : 'text-primary'
+                  }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right Actions */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {/* Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className={`flex items-center space-x-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg hover:bg-black/5 transition-all ${isDarkBg ? 'text-white' : 'text-primary'
+                  }`}
+              >
+                <Globe className="w-4 h-4 text-accent" />
+                <span>{language}</span>
+                <ChevronDown className={`w-3 h-3 transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {isLangOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                    className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl py-2 border border-gray-100 overflow-hidden"
+                  >
+                    <div className="grid grid-cols-1 max-h-64 overflow-y-auto">
+                      {languages.map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => handleLangSelect(lang.code)}
+                          className={`px-6 py-2.5 text-left text-sm font-medium transition-colors hover:bg-gray-50 flex items-center justify-between ${language === lang.code ? 'text-accent' : 'text-primary'
+                            }`}
+                        >
+                          {lang.name}
+                          {language === lang.code && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Cart Icon */}
+            <Link
+              to="/cart"
+              className={`relative p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+
+            {/* User Profile / Notifications */}
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <NotificationBell userId={user.id} isDarkBg={isDarkBg} />
+                <Link
+                  to={user.role === 'admin' ? '/admin' : '/my-account'}
+                  className={`p-2 rounded-lg hover:bg-black/5 transition-colors ${isDarkBg ? 'text-white' : 'text-primary'}`}
+                >
+                  <User className="w-5 h-5" />
+                </Link>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${isDarkBg ? 'text-white/90 hover:bg-white/10' : 'text-primary hover:bg-gray-50'}`}
+              >
+                Login
+              </Link>
+            )}
+
+            <button
+              onClick={() => openEnquiryModal()}
+              className="btn-primary py-2.5 px-6 text-sm flex items-center space-x-2 shadow-xl hover:shadow-primary/20 ml-2"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>{t('get_enquiry')}</span>
+            </button>
+          </div>
+
+          {/* Mobile menu toggle */}
+          <div className="lg:hidden flex items-center gap-2 pr-2">
+            {user && <NotificationBell userId={user.id} isDarkBg={isDarkBg} />}
+            <Link 
+              to="/cart" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`relative p-3 rounded-xl transition-all z-20 ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}
+            >
+              <ShoppingCart className="w-6 h-6" />
+              {itemCount > 0 && (
+                <span className="absolute top-1 right-1 w-5 h-5 bg-accent text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white shadow-lg">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`p-2 rounded-xl transition-all ${isDarkBg ? 'text-white hover:bg-white/10' : 'text-primary hover:bg-gray-100'}`}
+            >
+              {isMobileMenuOpen
+                ? <X className="w-6 h-6" />
+                : <Menu className="w-6 h-6" />
+              }
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -323,56 +323,37 @@ const Navbar = () => {
 
               <div className="flex-grow overflow-y-auto py-8 px-6 space-y-6">
                 {navLinks.map((link) => (
-                  <Link 
-                    key={link.path} 
+                  <Link
+                    key={link.path}
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-2xl font-serif font-bold text-primary hover:text-accent transition-colors"
+                    className="block text-xl font-serif font-bold text-primary hover:text-accent transition-colors"
                   >
                     {link.name}
                   </Link>
                 ))}
-                
+
                 {user ? (
-                   <Link 
+                  <Link
                     to={user.role === 'admin' ? '/admin' : '/my-account'}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-2xl font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
-                   >
-                     {user.role === 'admin' ? 'Admin Panel' : 'My Account'}
-                   </Link>
+                    className="block text-lg font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
+                  >
+                    {user.role === 'admin' ? 'Admin Panel' : 'My Account'}
+                  </Link>
                 ) : (
-                    <Link 
+                  <Link
                     to="/login"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-2xl font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
-                   >
-                     Login / Register
-                   </Link>
+                    className="block text-lg font-serif font-bold text-primary hover:text-accent transition-colors pt-4 border-t border-gray-100"
+                  >
+                    Login / Register
+                  </Link>
                 )}
-                
-                <div className="pt-8 border-t border-gray-100">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Choose Language</span>
-                  <div className="grid grid-cols-2 gap-3">
-                    {languages.map(lang => (
-                      <button 
-                        key={lang.code}
-                        onClick={() => handleLangSelect(lang.code)}
-                        className={`text-left px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
-                          language === lang.code 
-                            ? 'bg-primary text-white border-primary' 
-                            : 'bg-gray-50 text-primary border-transparent'
-                        }`}
-                      >
-                        {lang.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
 
-              <div className="p-6 bg-gray-50">
-                <button 
+              <div className="p-4 bg-gray-50/50">
+                <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     openEnquiryModal();

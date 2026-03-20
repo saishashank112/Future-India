@@ -158,22 +158,22 @@ const Cart = () => {
 
           {/* Checkout Breakdown */}
           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-36">
-            <div className="bg-white rounded-[3rem] border border-gray-100 shadow-2xl overflow-hidden shadow-primary/5">
-              <div className="p-10 space-y-10">
+            <div className="bg-white rounded-[2.5rem] md:rounded-[3rem] border border-gray-100 shadow-2xl overflow-hidden shadow-primary/5">
+              <div className="p-6 md:p-10 space-y-8 md:space-y-10">
                 <header className="pb-6 border-b border-gray-50">
-                   <h3 className="text-2xl font-serif font-bold text-primary italic">Export Protocol</h3>
-                   <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-1">Transaction Summary</p>
+                   <h3 className="text-xl md:text-2xl font-serif font-bold text-primary italic">Export Protocol</h3>
+                   <p className="text-[9px] md:text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-1">Transaction Summary</p>
                 </header>
                 
-                <div className="space-y-6">
+                <div className="space-y-5 md:space-y-6">
                   <div className="flex justify-between items-center group">
                     <span className="text-gray-400 uppercase tracking-[0.1em] text-[10px] font-bold">Total Commodity Value</span>
-                    <span className="text-primary font-bold font-serif italic text-lg">{formatCurrency(subtotal)}</span>
+                    <span className="text-primary font-bold font-serif italic text-base md:text-lg">{formatCurrency(subtotal)}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400 uppercase tracking-[0.1em] text-[10px] font-bold">Logistics & Packaging</span>
                     <div className="flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full border border-green-100">
-                       <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                       <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-green-500" />
                        <span className="text-green-600 font-bold uppercase text-[8px] tracking-widest">Complimentary</span>
                     </div>
                   </div>
@@ -182,25 +182,25 @@ const Cart = () => {
                        <span className="text-gray-400 uppercase tracking-[0.1em] text-[10px] font-bold">Transit Insurance</span>
                        <p className="text-[8px] text-gray-300 uppercase font-bold tracking-widest">Covering CIF terms</p>
                     </div>
-                    <span className="text-primary font-bold text-xs uppercase tracking-widest">Included</span>
+                    <span className="text-primary font-bold text-[10px] uppercase tracking-widest">Included</span>
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-gray-50">
-                  <div className="flex justify-between items-end mb-10">
+                <div className="pt-6 md:pt-8 border-t border-gray-50">
+                  <div className="flex justify-between items-end mb-6 md:mb-10">
                     <div className="space-y-1">
-                       <span className="text-primary font-serif font-bold text-xl italic leading-none">Net Total</span>
+                       <span className="text-primary font-serif font-bold text-lg md:text-xl italic leading-none">Net Total</span>
                        <p className="text-[8px] font-bold text-gray-300 uppercase tracking-[0.2em] leading-none px-0.5">All Taxes Included</p>
                     </div>
-                    <span className="text-4xl font-serif font-bold text-accent italic -mb-1">{formatCurrency(subtotal)}</span>
+                    <span className="text-3xl md:text-4xl font-serif font-bold text-accent italic -mb-1">{formatCurrency(subtotal)}</span>
                   </div>
 
                   <button 
                     onClick={() => navigate('/checkout')}
-                    className="w-full h-20 bg-primary text-white rounded-[2rem] flex items-center justify-center gap-5 text-xs font-bold tracking-[0.2em] uppercase shadow-2xl shadow-primary/20 group hover:bg-accent hover:shadow-accent/20 transition-all"
+                    className="w-full h-16 md:h-20 bg-primary text-white rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center gap-3 md:gap-5 text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase shadow-2xl shadow-primary/20 group hover:bg-accent hover:shadow-accent/20 transition-all px-4"
                   >
                     <span>Proceed to Secure Port</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-500" />
+                    <ArrowRight className="w-4 h-4 md:w-5 h-5 group-hover:translate-x-2 transition-transform duration-500" />
                   </button>
                 </div>
               </div>

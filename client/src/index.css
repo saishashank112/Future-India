@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -8,12 +9,14 @@
   --color-background: hsl(0, 0%, 100%);
   --color-foreground: hsl(160, 20%, 10%);
   --font-serif: "Times New Roman", "serif";
-  --font-sans: "Inter", "sans-serif";
+  --font-sans: "Times New Roman", "serif";
 }
 
 @layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-  
+  * {
+    font-style: normal !important;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -21,7 +24,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
@@ -33,11 +36,23 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all duration-300 bg-primary text-primary-foreground hover:bg-accent hover:text-primary active:scale-95;
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-2xl font-bold uppercase tracking-widest text-[8px] transition-all duration-300 bg-primary text-primary-foreground hover:bg-accent hover:text-primary active:scale-95;
   }
+  @media (min-width: 768px) {
+    .btn-primary {
+      @apply px-8 py-3 text-[10px];
+    }
+  }
+
   .btn-accent {
-    @apply inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all duration-300 bg-accent text-primary hover:bg-primary hover:text-white active:scale-95;
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-2xl font-bold uppercase tracking-widest text-[8px] transition-all duration-300 bg-accent text-primary hover:bg-primary hover:text-white active:scale-95;
   }
+  @media (min-width: 768px) {
+    .btn-accent {
+      @apply px-8 py-3 text-[10px];
+    }
+  }
+
   .btn-outline {
     @apply inline-flex items-center justify-center px-8 py-3 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all duration-300 border border-primary/10 text-primary hover:bg-primary/5 active:scale-95;
   }
@@ -60,4 +75,31 @@
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* Hide Google Translate Bar & Brand */
+.goog-te-banner-frame.skiptranslate, .goog-te-gadget span {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  font-family: var(--font-sans) !important;
+  font-size: 0 !important;
+  color: transparent !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+  @apply bg-white border border-gray-200 text-primary text-[14px] font-bold rounded-xl px-4 py-2 outline-none cursor-pointer shadow-xl transition-all min-w-[200px];
+  display: block !important;
+  visibility: visible !important;
+}
+body {
+  top: 0 !important;
 }

@@ -54,11 +54,13 @@ const Checkout = () => {
     // Auto-fetch location if not already captured
     if (!finalLat) {
         try {
+            // Attempt high-precision geolocation with a 15s timeout
             const loc = await fetchLocation();
             finalLat = loc.lat;
             finalLng = loc.lng;
-        } catch (err) {
-            console.warn("Auto-location failed, proceeding with manual address", err);
+        } catch {
+            // Proceed with manual address if location service is unavailable or times out
+            console.log("Geolocation protocol unavailable, defaulting to manual address entry.");
         }
     }
 

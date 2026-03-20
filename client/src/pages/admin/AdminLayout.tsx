@@ -39,10 +39,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     setIsMobileMenuOpen(false);
   }, []);
 
-  useEffect(() => {
-    // Close menu on route change
-    closeMobileMenu();
-  }, [location.pathname, closeMobileMenu]);
+  // The menu is already closed via onClick in individual Links.
 
   useEffect(() => {
     let isMounted = true;
@@ -55,14 +52,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       const ords = ordRes.data || [];
       
       const combined = [
-        ...inqs.slice(0, 3).map((i: any) => ({
+        ...inqs.slice(0, 3).map((i: {id: number, name: string, created_at: string}) => ({
           id: `inq-${i.id}`,
           text: `New enquiry from ${i.name}`,
           time: new Date(i.created_at).toLocaleDateString(),
           type: 'enquiry',
           ts: new Date(i.created_at).getTime()
         })),
-        ...ords.slice(0, 3).map((o: any) => ({
+        ...ords.slice(0, 3).map((o: {id: number, order_code: string, created_at: string}) => ({
           id: `ord-${o.id}`,
           text: `New order #${o.order_code}`,
           time: new Date(o.created_at).toLocaleDateString(),
@@ -93,7 +90,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#F8FAFB] font-sans">
+    <div className="flex min-h-screen bg-[#F8FAFB] font-serif">
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div 
@@ -110,7 +107,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               <span className="text-primary font-black text-lg">FI</span>
             </div>
             <div className="flex flex-col">
-              <span className="font-serif font-bold text-base tracking-tight leading-none text-white italic uppercase">Executive</span>
+               <span className="font-serif font-bold text-base tracking-tight leading-none text-white uppercase">Executive</span>
               <span className="text-[8px] tracking-[0.3em] font-black text-accent uppercase mt-1">Admin Protocol</span>
             </div>
           </Link>
@@ -125,14 +122,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               key={item.path}
               to={item.path}
               onClick={closeMobileMenu}
-              className={`flex items-center justify-between px-5 py-3.5 rounded-xl transition-all duration-300 font-bold text-[9px] uppercase tracking-[0.2em] group ${
+              className={`flex items-center justify-between px-5 py-3.5 rounded-xl transition-all duration-300 font-bold text-[11px] uppercase tracking-[0.2em] group ${
                 location.pathname === item.path 
                   ? 'bg-accent text-primary shadow-xl shadow-accent/20' 
-                  : 'text-white/30 hover:text-white hover:bg-white/5'
+                  : 'text-white/50 hover:text-white hover:bg-white/5'
               }`}
             >
               <div className="flex items-center space-x-3">
-                <item.icon className={`w-4 h-4 ${location.pathname === item.path ? 'text-primary' : 'text-white/10 group-hover:text-white'}`} />
+                <item.icon className={`w-4 h-4 ${location.pathname === item.path ? 'text-primary' : 'text-white/20 group-hover:text-white'}`} />
                 <span>{item.name}</span>
               </div>
               {location.pathname === item.path && <ChevronRight className="w-2.5 h-2.5" />}
@@ -143,10 +140,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="p-8 mt-auto">
           <button 
             onClick={handleLogout}
-            className="flex items-center space-x-3 px-6 py-4 w-full bg-red-500/10 text-red-400 hover:bg-red-50 hover:text-white transition-all rounded-xl font-bold text-[8px] uppercase tracking-[0.3em]"
+            className="flex items-center space-x-3 px-6 py-4 w-full bg-red-500/10 text-red-400 hover:bg-white hover:text-primary transition-all rounded-xl font-bold text-[10px] uppercase tracking-[0.3em]"
           >
             <LogOut className="w-3.5 h-3.5" />
-            <span>Terminate Session</span>
+            <span>Logout</span>
           </button>
         </div>
       </aside>

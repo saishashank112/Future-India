@@ -15,8 +15,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('general');
-  const [settings, setSettings] = useState<any>({});
-  const [passwordForm, setPasswordForm] = useState({ current: '', new: '', confirm: '' });
+  const [settings, setSettings] = useState<Record<string, string>>({});
+  const [passwordForm, setPasswordForm] = useState({ current: '', new: '' });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -53,10 +53,6 @@ const Settings = () => {
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordForm.new !== passwordForm.confirm) {
-        alert("Passwords don't match");
-        return;
-    }
     setSaving(true);
     try {
       const res = await fetch(getApiUrl('/admin/password'), {
@@ -67,7 +63,7 @@ const Settings = () => {
       const data = await res.json();
       if (res.ok) {
         setMessage('Password updated successfully');
-        setPasswordForm({ current: '', new: '', confirm: '' });
+        setPasswordForm({ current: '', new: '' });
         setTimeout(() => setMessage(''), 3000);
       } else {
         alert(data.error);
@@ -79,7 +75,6 @@ const Settings = () => {
   const tabs = [
     { id: 'general', name: 'General Information', icon: Building2 },
     { id: 'security', name: 'Security Settings', icon: ShieldCheck },
-    { id: 'content', name: 'Website Content', icon: Globe2 },
   ];
 
   return (
@@ -187,7 +182,7 @@ const Settings = () => {
                   <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-1">Update primary access credentials</p>
                </div>
 
-               <form onSubmit={handleChangePassword} className="space-y-8 max-w-md">
+                <form onSubmit={handleChangePassword} className="space-y-8 max-w-md">
                   <div className="space-y-3">
                     <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest px-1">Current Password</label>
                     <div className="relative group">
@@ -214,19 +209,6 @@ const Settings = () => {
                         <ShieldCheck className="w-4 h-4 text-gray-300 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-accent transition-colors" />
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest px-1">Confirm Protocol</label>
-                    <div className="relative group">
-                        <input 
-                            required
-                            value={passwordForm.confirm}
-                            onChange={e => setPasswordForm({...passwordForm, confirm: e.target.value})}
-                            type="password" 
-                            className="w-full px-6 py-4 pl-12 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-1 focus:ring-accent transition-all text-xs font-bold text-primary outline-none" 
-                        />
-                        <ShieldCheck className="w-4 h-4 text-gray-300 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-accent transition-colors" />
-                    </div>
-                  </div>
 
                   <button 
                     disabled={saving}
@@ -240,43 +222,6 @@ const Settings = () => {
             </div>
           )}
 
-          {activeTab === 'content' && (
-            <div className="space-y-10">
-               <div>
-                  <h3 className="text-xl font-serif font-bold text-primary italic">Website Copy & Brand</h3>
-                  <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-1">Manage global site messages and banners</p>
-               </div>
-
-               <div className="space-y-8 max-w-2xl">
-                  <div className="space-y-3">
-                    <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest px-1">Hero Banner Tagline</label>
-                    <textarea 
-                        value={settings.site_tagline || ''}
-                        onChange={e => setSettings({...settings, site_tagline: e.target.value})}
-                        className="w-full px-6 py-4 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-1 focus:ring-accent transition-all text-xs font-bold text-primary italic font-serif outline-none" 
-                        rows={2}
-                    />
-                  </div>
-                  <div className="space-y-3">
-                    <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest px-1">Announcement Bar (Marquee)</label>
-                    <input 
-                        value={settings.announcement || ''}
-                        onChange={e => setSettings({...settings, announcement: e.target.value})}
-                        type="text" 
-                        className="w-full px-6 py-4 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-1 focus:ring-accent transition-all text-xs font-bold text-primary uppercase outline-none"
-                    />
-                  </div>
-               </div>
-
-               <button 
-                onClick={handleSaveSettings}
-                className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-accent transition-all shadow-xl shadow-primary/10"
-               >
-                 <Save className="w-4 h-4 text-accent" />
-                 <span>Synchronize Content</span>
-               </button>
-            </div>
-          )}
         </div>
       </div>
     </div>
